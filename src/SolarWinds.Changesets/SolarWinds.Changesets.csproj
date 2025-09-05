@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets -->
+  <PropertyGroup Label="NuGet Package Setup">
+    <PackageID>SolarWinds.Changesets</PackageID>
+    <Title>.NET Changesets</Title>
+    <ToolCommandName>changeset</ToolCommandName>
+    <PackageDescription>
+      A dotnet tool to manage versioning and changelogs with a focus on multi-package repositories
+    </PackageDescription>
+    <PackageTags>versioning;semver;changelog;monorepo;release;automation</PackageTags>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageOutputPath>..\..\nupkg</PackageOutputPath>
+    <PackAsTool>true</PackAsTool>
+    <OutputType>Exe</OutputType>
+    <VersionPrefix>0.0.1</VersionPrefix>
+  </PropertyGroup>
+
+    <ItemGroup Label="NuGet Package Assets">
+        <None Include="..\..\assets\icon.png" Pack="true" PackagePath="" />
+        <None Include="..\..\README.md" Pack="true" PackagePath="" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Hosting" />
+        <PackageReference Include="Spectre.Console" />
+        <PackageReference Include="Spectre.Console.Analyzer">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Spectre.Console.Cli" />
+        <PackageReference Include="System.Text.Json" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="SolarWinds.Changesets.Tests" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,49 @@
+<Project>
+  <!-- Check out MSBuild properties here: -->
+  <!--https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props-->
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <!-- Default for .NET8.0, please update together with TargetFramework version -->
+    <LangVersion>12.0</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Authors>SolarWinds</Authors>
+    <Company>SolarWinds</Company>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/solarwinds/net-changesets</RepositoryUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Code Quality and Code Style Analysis">
+    <!--https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview?tabs=net-9-->
+    <!--https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#code-analysis-properties-->
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <MSBuildTreatWarningsAsErrors>true</MSBuildTreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <!-- Default for .NET8.0, please update together with TargetFramework version -->
+    <AnalysisLevel>8</AnalysisLevel>
+    <AnalysisMode>all</AnalysisMode>
+    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+
+    <!--https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#generatedocumentationfile-->
+    <!--Enabled for IDE0005 code analysis rule: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0005-->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>
+      $(NoWarn);
+    </NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Other">
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Known Folders">
+    <SrcPath>$(SolutionDir)\src</SrcPath>
+    <TestsPath>$(SolutionDir)\tests</TestsPath>
+  </PropertyGroup>
+
+</Project>
