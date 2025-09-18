@@ -1,0 +1,5 @@
+---
+"ProjectB": Minor
+---
+
+ExampleChange

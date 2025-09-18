@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Title>Data</Title>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="reference1.csproj"/>
+    <ProjectReference Include="reference2.csproj"/>
+  </ItemGroup>
+</Project>

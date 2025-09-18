@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Title>Data</Title>
+    <Version>InvalidValue</Version>
+  </PropertyGroup>
+</Project>

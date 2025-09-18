@@ -1,0 +1,8 @@
+[*.cs]
+
+# Comments next to analyzer contains information on why is the analyzer disabled.
+
+#### Code Quality Analyzers ####
+dotnet_diagnostic.CA1707.severity = none # It is common practice to write method names in tests with underscore
+dotnet_diagnostic.CA1812.severity = none # Test classes are not instantiated
+dotnet_diagnostic.CS1591.severity = none # We do not need XML documentation in tests
