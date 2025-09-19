@@ -9,10 +9,11 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Authors>SolarWinds</Authors>
     <Company>SolarWinds</Company>
+    <Authors>$(Company)</Authors>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/solarwinds/net-changesets</RepositoryUrl>
+    <Copyright>©$([System.DateTime]::Now.Year) $(Company) Worldwide, LLC. All rights reserved.</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Label="Code Quality and Code Style Analysis">
