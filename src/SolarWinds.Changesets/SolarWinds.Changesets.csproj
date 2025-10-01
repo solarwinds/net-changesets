@@ -6,15 +6,21 @@
     <Title>.NET Changesets</Title>
     <ToolCommandName>changeset</ToolCommandName>
     <PackageDescription>
-      A dotnet tool to manage versioning and changelogs with a focus on multi-package repositories
+      A .NET tool to manage versioning and changelogs with a focus on multi-package repositories
     </PackageDescription>
     <PackageTags>versioning;semver;changelog;monorepo;release;automation</PackageTags>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageOutputPath>..\..\nupkg</PackageOutputPath>
+    <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
+    <PackageReleaseNotes>$(RepositoryUrl)/releases</PackageReleaseNotes>
     <PackAsTool>true</PackAsTool>
     <OutputType>Exe</OutputType>
-    <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionPrefix>0.1.1</VersionPrefix>
+
+    <DebugType>embedded</DebugType>
+    <EnablePackageValidation>true</EnablePackageValidation>
   </PropertyGroup>
 
     <ItemGroup Label="NuGet Package Assets">

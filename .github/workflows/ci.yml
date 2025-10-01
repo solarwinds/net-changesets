@@ -30,5 +30,14 @@ jobs:
     - name: Test
       run: dotnet test -c Release --no-restore --no-build --verbosity normal
 
+    - name: Pack
+      run: dotnet pack -c Release --no-restore --no-build
+
+    - name: Upload NuGet package as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-package
+        path: ./nupkg/*.nupkg
+
     - name: Format
       run: dotnet format --no-restore --verify-no-changes
