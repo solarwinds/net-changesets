@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1
+
+### Modified
+
+- Package icon, description, url,...
+
 ## 0.1.0
 
 ### Added
