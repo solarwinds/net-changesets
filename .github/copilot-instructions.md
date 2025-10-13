@@ -99,6 +99,21 @@ changeset --version
 
 **CI Pipeline:** `.github/workflows/ci.yml` runs on PR/push to main. Steps: checkout, restore, build, test, pack, upload artifact, format verification. Uses ubuntu-latest runner.
 
+## Manual testing and verification
+
+After implementing changes, verify the behavior by running the tool directly from source:
+
+```bash
+dotnet run --project .\src\SolarWinds.Changesets\SolarWinds.Changesets.csproj
+```
+
+**Verification checklist:**
+1. ✅ Build succeeds: `dotnet build -c Release --no-restore`
+2. ✅ All tests pass: `dotnet test -c Release --no-restore --no-build`
+3. ✅ Code formatting: `dotnet format --no-restore --verify-no-changes`
+4. ✅ No compilation errors: Check with IDE or `dotnet build`
+5. ✅ Manual dry run: Test actual behavior with `dotnet run`
+
 ## Domain configurations
 
 **Changeset Config (`.changeset/config.json`):**
