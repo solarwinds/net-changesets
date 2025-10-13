@@ -94,7 +94,8 @@ dotnet format --no-restore --verify-no-changes
 ```bash
 dotnet tool uninstall solarwinds.changesets --global
 dotnet tool install solarwinds.changesets --global --add-source ./nupkg
-changeset --version
+# TODO: this is not yet implemented, see issue #12
+# changeset --version
 ```
 
 **CI Pipeline:** `.github/workflows/ci.yml` runs on PR/push to main. Steps: checkout, restore, build, test, pack, upload artifact, format verification. Uses ubuntu-latest runner.
