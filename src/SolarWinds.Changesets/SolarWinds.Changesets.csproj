@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <!-- https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets -->
   <PropertyGroup Label="NuGet Package Setup">
@@ -17,7 +17,7 @@
     <PackageReleaseNotes>$(RepositoryUrl)/releases</PackageReleaseNotes>
     <PackAsTool>true</PackAsTool>
     <OutputType>Exe</OutputType>
-    <VersionPrefix>0.1.1</VersionPrefix>
+    <Version>0.1.2</Version>
 
     <DebugType>embedded</DebugType>
     <EnablePackageValidation>true</EnablePackageValidation>
