@@ -31,6 +31,7 @@ app.Configure(config =>
 {
     config
         .SetApplicationName("changeset")
+        .UseAssemblyInformationalVersionWithoutSourceRevisionId()
         .SetExceptionHandler(ExceptionHandler.Handle);
 
     config

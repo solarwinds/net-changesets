@@ -15,7 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		CHANGELOG.md = CHANGELOG.md
 		CODEOWNERS = CODEOWNERS
 		CONTRIBUTING.md = CONTRIBUTING.md
 		Directory.Build.props = Directory.Build.props
@@ -51,6 +50,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\codeql.yml = .github\workflows\codeql.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".changeset", ".changeset", "{D9292B07-1521-45FF-987C-93AF914C02B8}"
+	ProjectSection(SolutionItems) = preProject
+		.changeset\config.json = .changeset\config.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,6 +80,7 @@ Global
 		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {0ABD51BE-854F-4ADA-BA0B-A53D22E84A2B}
 		{31B2BA1F-7D13-210D-5051-E57059416DA2} = {BC9915A0-AE80-47A7-89E8-841B2220E53B}
 		{00407218-C694-4CF5-AABB-5EAE81B3466F} = {14F3844A-0818-4A24-B210-262CFFC5FD8C}
+		{D9292B07-1521-45FF-987C-93AF914C02B8} = {0ABD51BE-854F-4ADA-BA0B-A53D22E84A2B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {24D73EE6-7A9E-4AFF-AC21-18B414246B30}

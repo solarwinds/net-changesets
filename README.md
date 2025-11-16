@@ -1,5 +1,7 @@
 # NET Changesets
 
+[![NuGet version (SolarWinds.Changesets)](https://img.shields.io/nuget/v/SolarWinds.Changesets.svg)](https://www.nuget.org/packages/SolarWinds.Changesets)
+
 A .NET CLI tool (with interactive support) to manage versioning and changelogs with a focus on multi-package repositories.
 
 Key features include:
@@ -13,26 +15,36 @@ Key features include:
 This .NET implementation is port from original `npm` implementation [@changesets/cli](https://www.npmjs.com/package/@changesets/cli)
 ([GitHub repository](https://github.com/changesets/changesets/blob/main/README.md)).
 
-## Currently Supported Commands
+## CLI
 
-- `changeset init`
-- `changeset add`
-- `changeset version`
-- `changeset publish`
-- `changeset status`
+**Usage:**
+
+`changeset [OPTIONS] [COMMAND]`
+
+**Options:**
+
+- `-h, --help` Prints help information
+- `-v, --version` Prints version information
+
+**Commands:**
+- `init` Sets up the .changeset folder and generates a default config file. You should run this command once when you are setting up changesets
+- `add` Used by contributors to add information about their changes by creating changeset files
+- `version` Takes existing changeset files and updates versions and dependencies of packages, as well as writing changelogs
+- `publish` This publishes changes to specified nuget repository
+- `status` Provides information about the changesets that currently exist. If there are no changesets present, it exits with an error status code
 
 ## Documentation
 
-- [Implementation Details of net-changesets commands](./docs/commands-implementation-details.md)
-- [Config file options](./docs/config-file-options.md)
+- [Implementation Details of net-changesets commands](https://github.com/solarwinds/net-changesets/blob/main/docs/commands-implementation-details.md)
+- [Config file options](https://github.com/solarwinds/net-changesets/blob/main/docs/config-file-options.md)
 
 ## Roadmap
 
-You can find the **Roadmap** [here](./ROADMAP.md).
+You can find the **Roadmap** [here](https://github.com/solarwinds/net-changesets/blob/main/ROADMAP.md).
 
 ## Contributing
 
-You can find the **Contribution Guidelines** [here](./CONTRIBUTING.md).
+You can find the **Contribution Guidelines** [here](https://github.com/solarwinds/net-changesets/blob/main/CONTRIBUTING.md).
 
 ## Installation
 
