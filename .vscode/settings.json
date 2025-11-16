@@ -1,0 +1,36 @@
+{
+  // Ensure EditorConfig settings are respected
+  "editor.detectIndentation": false,
+  // Format on save
+  "editor.formatOnSave": true,
+  // Use EditorConfig for indentation and final newline
+  "editor.insertSpaces": true,
+  "editor.tabSize": 4,
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  // File-specific formatter settings
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+  },
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml",
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+  },
+  // C# formatting - respects EditorConfig automatically
+  "[csharp]": {
+    "editor.defaultFormatter": "ms-dotnettools.csharp"
+  }
+}

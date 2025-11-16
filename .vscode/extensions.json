@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "editorconfig.editorconfig",
+    "ms-dotnettools.csharp",
+    "redhat.vscode-xml",
+    "yzhang.markdown-all-in-one"
+  ]
+}

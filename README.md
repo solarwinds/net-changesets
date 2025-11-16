@@ -27,6 +27,7 @@ This .NET implementation is port from original `npm` implementation [@changesets
 - `-v, --version` Prints version information
 
 **Commands:**
+
 - `init` Sets up the .changeset folder and generates a default config file. You should run this command once when you are setting up changesets
 - `add` Used by contributors to add information about their changes by creating changeset files
 - `version` Takes existing changeset files and updates versions and dependencies of packages, as well as writing changelogs

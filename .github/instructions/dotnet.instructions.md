@@ -5,6 +5,7 @@ applyTo: "**/*.cs"
 # Instructions for .NET C# code
 
 C# code (besides unit tests) should adhere to the following guidelines:
+
 - Follow SOLID principles
 - Use dependency injection
 - Use appropriate configuration formats (JSON, YAML, environment variables)
@@ -119,7 +120,7 @@ public async Task<ProcessResult> ProcessAsync(UserData userData, CancellationTok
 
 ## Repository structure
 
-The following are instructions on how to name folders and files and how the basic repository structure should look like 
+The following are instructions on how to name folders and files and how the basic repository structure should look like
 
 - Each project (CSPROJ) should be in its own folder.
 - Projects with the implementation code should be under "src" folder.
@@ -130,19 +131,21 @@ The following are instructions on how to name folders and files and how the basi
 ### Code Examples
 
 #### Async/Await Pattern
+
 ```csharp
 public async Task<User> GetUserAsync(int userId, CancellationToken cancellationToken = default)
 {
     using var httpClient = _httpClientFactory.CreateClient();
     var response = await httpClient.GetAsync($"/api/users/{userId}", cancellationToken);
     response.EnsureSuccessStatusCode();
-    
+
     var content = await response.Content.ReadAsStringAsync(cancellationToken);
     return JsonSerializer.Deserialize<User>(content);
 }
 ```
 
 #### String Comparison Example
+
 ```csharp
 // For culture-sensitive comparisons
 if (userInput.Equals(expectedValue, StringComparison.InvariantCultureIgnoreCase))
@@ -152,6 +155,7 @@ if (fileName.EndsWith(".txt", StringComparison.Ordinal))
 ```
 
 #### StringBuilder Usage
+
 ```csharp
 // Use StringBuilder for heavy concatenation in loops
 var builder = new StringBuilder();
@@ -163,6 +167,7 @@ return builder.ToString();
 ```
 
 #### Regex Source Generators
+
 ```csharp
 using System.Text.RegularExpressions;
 
@@ -171,11 +176,11 @@ public partial class MyService
     // Use regex source generators for compile-time validation and better performance
     [GeneratedRegex(@"\b(query|mutation)\b\s+(\w+)")]
     private static partial Regex OperationNameRegex();
-    
+
     // For culture-sensitive patterns, specify options
     [GeneratedRegex(@"[a-zA-Z_:][a-zA-Z0-9_:]*", RegexOptions.IgnoreCase)]
     private static partial Regex IdentifierRegex();
-    
+
     public string ExtractOperationName(string query)
     {
         var match = OperationNameRegex().Match(query);

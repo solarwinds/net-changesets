@@ -11,6 +11,10 @@ indent_size = 4
 trim_trailing_whitespace = true
 # end_of_line = crlf # The end_of_line setting is maintained by .gitattributes! Do not set it here!
 
+[*.{json,yml,yaml,xml,md,csproj,props,config}]
+indent_style = space
+indent_size = 2
+
 [*.cs]
 charset = utf-8
 max_line_length = 130

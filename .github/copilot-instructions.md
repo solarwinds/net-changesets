@@ -8,14 +8,14 @@ NET Changesets is a .NET CLI tool for managing versioning and changelogs in mult
 
 ## Technology stack
 
-**Language:** C# 12.0 with nullable reference types and implicit usings enabled  
-**Runtime:** .NET 8.0 (SDK 8.0.406)  
-**CLI Framework:** Spectre.Console v0.50.0 (interactive prompts, tables, markup rendering)  
-**Dependency Injection:** Microsoft.Extensions.DependencyInjection v9.0.9  
-**Testing:** NUnit 4.4.0, Moq 4.20.72, AwesomeAssertions 9.1.0, Spectre.Console.Testing  
-**Code Analysis:** Microsoft .NET analyzers (all enabled, warnings-as-errors), Spectre.Console.Analyzer  
-**Package Management:** Central Package Management via `Directory.Packages.props`  
-**CI/CD:** GitHub Actions (build, test, pack, format verification)  
+**Language:** C# 12.0 with nullable reference types and implicit usings enabled
+**Runtime:** .NET 8.0 (SDK 8.0.406)
+**CLI Framework:** Spectre.Console v0.50.0 (interactive prompts, tables, markup rendering)
+**Dependency Injection:** Microsoft.Extensions.DependencyInjection v9.0.9
+**Testing:** NUnit 4.4.0, Moq 4.20.72, AwesomeAssertions 9.1.0, Spectre.Console.Testing
+**Code Analysis:** Microsoft .NET analyzers (all enabled, warnings-as-errors), Spectre.Console.Analyzer
+**Package Management:** Central Package Management via `Directory.Packages.props`
+**CI/CD:** GitHub Actions (build, test, pack, format verification)
 **External Tools:** Git CLI (for diff detection), dotnet CLI (for pack/publish)
 
 ## Directory structure
@@ -44,6 +44,7 @@ SolarWinds.Changesets.sln          # Main solution file
 **CLI Framework:** Uses Spectre.Console.Cli with `CommandApp<AddChangesetCommand>` (Add is default). Commands registered in `Program.cs` via `config.AddCommand<T>()`. All commands inherit from `ConfigurationCommandBase` which loads `.changeset/config.json`.
 
 **Dependency Injection:** Services registered in `ServiceCollection` and integrated via custom `TypeRegistrar`/`TypeResolver` (required by Spectre.Console.Cli). Main services:
+
 - `IConfigurationService`: Loads/validates `.changeset/config.json`
 - `IChangesetsRepository`: Reads/writes/deletes changeset markdown files
 - `ICsProjectsRepository`: Parses .csproj files, updates `<VersionPrefix>` elements
@@ -55,6 +56,7 @@ SolarWinds.Changesets.sln          # Main solution file
 **Semantic Versioning:** Custom `Semver` class (Major.Minor.Patch) with methods `RaiseMajor()`, `RaiseMinor()`, `RaisePatch()`. Parses version strings from `<VersionPrefix>` in .csproj files. Version bumps cascade dependencies (updating dependent projects).
 
 **Command Flow Example (version command):**
+
 1. `VersionChangesetCommand.ExecuteCommandAsync()` calls `IChangesetsRepository.GetChangesetsAsync()`
 2. Reads all `.md` files from `.changeset/` directory
 3. Parses YAML front matter (project names, bump types) and markdown content
@@ -69,28 +71,33 @@ SolarWinds.Changesets.sln          # Main solution file
 **Prerequisites:** .NET 8.0 SDK (version 8.0.406 or compatible via rollForward in `global.json`)
 
 **Build:**
+
 ```bash
 dotnet restore --packages ./packages
 dotnet build -c Release --no-restore
 ```
 
 **Test:**
+
 ```bash
 dotnet test -c Release --no-restore --no-build --verbosity normal
 ```
 
 **Pack:**
+
 ```bash
 dotnet pack -c Release --no-restore --no-build
 # Output: ./nupkg/SolarWinds.Changesets.0.1.1.nupkg
 ```
 
 **Code Style Check:**
+
 ```bash
 dotnet format --no-restore --verify-no-changes
 ```
 
 **Local Installation for Testing:**
+
 ```bash
 dotnet tool uninstall solarwinds.changesets --global
 dotnet tool install solarwinds.changesets --global --add-source ./nupkg
@@ -109,6 +116,7 @@ dotnet run --project .\src\SolarWinds.Changesets\SolarWinds.Changesets.csproj
 ```
 
 **Verification checklist:**
+
 1. ✅ Build succeeds: `dotnet build -c Release --no-restore`
 2. ✅ All tests pass: `dotnet test -c Release --no-restore --no-build`
 3. ✅ Code formatting: `dotnet format --no-restore --verify-no-changes`
@@ -118,15 +126,18 @@ dotnet run --project .\src\SolarWinds.Changesets\SolarWinds.Changesets.csproj
 ## Domain configurations
 
 **Changeset Config (`.changeset/config.json`):**
+
 ```json
 {
-    "sourcePath": "src",        // Relative path to projects folder
-    "packageSource": "nuget"    // NuGet source name from NuGet.config
+  "sourcePath": "src", // Relative path to projects folder
+  "packageSource": "nuget" // NuGet source name from NuGet.config
 }
 ```
+
 Created by `changeset init`. Loaded by `ConfigurationService`. Default `packageSource` is `nuget.org`.
 
 **NuGet.config:** Optional file for custom package sources. Example:
+
 ```xml
 <packageSources>
     <add key="nuget" value="https://api.nuget.org/v3/index.json" />
@@ -135,6 +146,7 @@ Created by `changeset init`. Loaded by `ConfigurationService`. Default `packageS
 ```
 
 **Changeset File Format (`.changeset/{randomname}.md`):**
+
 ```markdown
 ---
 "ProjectA": minor
@@ -143,9 +155,11 @@ Created by `changeset init`. Loaded by `ConfigurationService`. Default `packageS
 
 Added new feature X and fixed bug Y in ProjectB
 ```
+
 Generated by `add` command. Filename: 10 random lowercase letters + `.md`. Projects listed in YAML front matter with bump type (major/minor/patch).
 
 **Project File Requirements:**
+
 - Must contain `<VersionPrefix>` element (e.g., `<VersionPrefix>1.0.0</VersionPrefix>`)
 - Supported format: `Major.Minor.Patch` (parsed via `System.Version`)
 - `version` command updates this element in-place using XML manipulation
@@ -153,6 +167,7 @@ Generated by `add` command. Filename: 10 random lowercase letters + `.md`. Proje
 ## Conventions
 
 **Code Style:**
+
 - **Implicit usings enabled** (no need for common System namespaces)
 - **Nullable reference types enabled** (treat null warnings as errors)
 - **File-scoped namespaces** (e.g., `namespace SolarWinds.Changesets.Commands.Add;`)
@@ -161,6 +176,7 @@ Generated by `add` command. Filename: 10 random lowercase letters + `.md`. Proje
 - **IDE rules enforced in CI** via `dotnet format` (not in build)
 
 **Testing:**
+
 - NUnit framework with `[TestFixture]` and `[Test]` attributes
 - Global using for `NUnit.Framework` (defined in test .csproj)
 - Test data in `TestData/` folders, copied to output directory
@@ -168,23 +184,27 @@ Generated by `add` command. Filename: 10 random lowercase letters + `.md`. Proje
 - Mock external processes using `Moq` on `IProcessExecutor`
 
 **Naming:**
+
 - Commands: `{Action}ChangesetCommand` (e.g., `AddChangesetCommand`)
 - Interfaces: Standard `I` prefix (e.g., `IConfigurationService`)
 - Internal classes: Most implementation classes are `internal sealed`
 - Constants: Defined in `Constants` static class (e.g., `Constants.WorkingDirectoryFullPath`)
 
 **Dependency Constraints:**
+
 - **Only allowed third-party dependency:** Spectre.Console (and related packages)
 - Rationale: Minimize external dependencies for a CLI tool
 - All other needs met by .NET BCL or Microsoft.Extensions packages
 
 **Git Workflow:**
+
 - Branch naming: `{type}/{issueID}-{description}` (e.g., `feature/123-add-new-command`)
 - Commit messages: Start with issue ID (e.g., `123 Implement status command`)
 - GPG signing required for commits
 - PR title format: `{Type} #{issueID} {Description}`
 
 **Error Handling:**
+
 - `ExceptionHandler.Handle()` registered in Spectre.Console CLI config
 - Custom exception: `InitializationException` for config validation errors
 - Return codes defined in `ResultCodes` class (not yet fully implemented)
@@ -192,23 +212,27 @@ Generated by `add` command. Filename: 10 random lowercase letters + `.md`. Proje
 ## Integration points
 
 **Git Integration:**
+
 - `GitService.GetDiff()` calls `git diff --name-only {sourcePath}` to detect modified .csproj files
 - Used by `publish` command to identify packages needing publication
 - Requires git executable in PATH
 
 **Dotnet CLI Integration:**
+
 - `DotnetService.Pack()` calls `dotnet pack {projectPath} --output {Constants.NupkgOutputFullPath}`
 - `DotnetService.Publish()` calls `dotnet nuget push {nupkgPath} --source {packageSource}`
 - NuGet API key expected in environment or nuget.config (standard dotnet behavior)
 - Output directory: `./nupkg/` (created if not exists)
 
 **File System Operations:**
+
 - Changeset files: `.changeset/` directory (created by `init` command)
 - CHANGELOG.md: Root of repository
 - .csproj files: Located via recursive search from `sourcePath` config
 - All paths resolved relative to `Constants.WorkingDirectoryFullPath` (current directory)
 
 **NuGet Sources:**
+
 - Resolved via standard dotnet/NuGet.config mechanisms
 - Default: `nuget` source (typically nuget.org)
 - Custom sources defined in `NuGet.config` (repository or user-level)
@@ -219,11 +243,13 @@ Generated by `add` command. Filename: 10 random lowercase letters + `.md`. Proje
 **Current State:** MVP stage with manual CLI operations. All 5 commands implemented (`init`, `add`, `version`, `publish`, `status`).
 
 **Known Limitations:**
+
 - `add` command supports only single bump type for all selected projects (npm version allows per-project bumps)
 - No command-line options for `add` (interactive mode only)
 - Manual execution required (no GitHub Action yet)
 
 **Planned Features:**
+
 - **GitHub Action** (primary roadmap item): Automated PR creation for version bumps, reusing existing codebase. See `.NET GitHub Action` documentation.
 - Future improvements open for discussion via GitHub issues
 
