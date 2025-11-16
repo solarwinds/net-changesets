@@ -44,7 +44,6 @@ internal sealed class ChangelogFileWriter : IChangelogFileWriter
         return
         $"""
         ## {newVersion}
-
         {string.Join("",
                 groupedDescriptions.Select(groupedDesc => GenerateChangelogBumpTypeSection(groupedDesc.BumpType, groupedDesc.Descriptions))
             )}
@@ -55,11 +54,11 @@ internal sealed class ChangelogFileWriter : IChangelogFileWriter
     {
         return
        $"""
-       ### {bumpType} Changes
+
+       **{bumpType} Changes**:
 
        {string.Join(Environment.NewLine, descriptions.Select(description => $"- {description}"))}
-       
-       
+
        """;
     }
 }
