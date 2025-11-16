@@ -11,11 +11,10 @@ internal static class ExceptionHandler
 
         if (ex is InitializationException)
         {
-            returnCode = ResultCodes.NotInitialized;
-            AnsiConsole.MarkupLine("[red]Error:[/] The changesets tool is not initialized in this repository.");
+            AnsiConsole.MarkupLine("[red]error[/] The [yellow]changeset[/] tool is not initialized in this repository.");
             AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine("Please run [yellow]changeset init[/] first to configure the tool.");
-            return returnCode;
+            AnsiConsole.MarkupLine("Please run [yellow]changeset init[/] first in the root of the repository to configure the tool.");
+            return ResultCodes.NotInitialized;
         }
 
         AnsiConsole.WriteException(ex);
