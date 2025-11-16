@@ -12,6 +12,7 @@
   - Use absolute links to Markdown documents instead of relative ones, which may not work in some contexts (e.g., NuGet package page)
   - `TreatWarningsAsErrors` is changing code style warnings to errors, but we want to keep them as warnings
   - Remove leftover code for 'not initialized' error message and improve current 'not initialized' error message
+  - Fix formatting of JSON, YML, XML and Markdown files to use 2-space indentation
 
 ## 0.1.2
 
