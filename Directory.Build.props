@@ -1,50 +1,151 @@
 <Project>
-  <!-- Check out MSBuild properties here: -->
-  <!--https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props-->
+    <!-- Check out MSBuild properties here: -->
+    <!--https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props-->
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <!-- Default for .NET8.0, please update together with TargetFramework version -->
-    <LangVersion>12.0</LangVersion>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <!-- Default for .NET8.0, please update together with TargetFramework version -->
+        <LangVersion>12.0</LangVersion>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <Company>SolarWinds</Company>
-    <Authors>$(Company)</Authors>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/solarwinds/net-changesets</RepositoryUrl>
-    <Copyright>©$([System.DateTime]::Now.Year) $(Company) Worldwide, LLC. All rights reserved.</Copyright>
-  </PropertyGroup>
+    <PropertyGroup>
+        <Company>SolarWinds</Company>
+        <Authors>$(Company)</Authors>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/solarwinds/net-changesets</RepositoryUrl>
+        <Copyright>©$([System.DateTime]::Now.Year) $(Company) Worldwide, LLC. All rights reserved.</Copyright>
+    </PropertyGroup>
 
-  <PropertyGroup Label="Code Quality and Code Style Analysis">
-    <!--https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview?tabs=net-9-->
-    <!--https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#code-analysis-properties-->
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <MSBuildTreatWarningsAsErrors>true</MSBuildTreatWarningsAsErrors>
-    <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <!-- Default for .NET8.0, please update together with TargetFramework version -->
-    <AnalysisLevel>8</AnalysisLevel>
-    <AnalysisMode>all</AnalysisMode>
-    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+    <PropertyGroup Label="Code Quality and Code Style Analysis">
+        <!--https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview?tabs=net-9-->
+        <!--https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#code-analysis-properties-->
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <MSBuildTreatWarningsAsErrors>true</MSBuildTreatWarningsAsErrors>
+        <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <!-- Default for .NET8.0, please update together with TargetFramework version -->
+        <AnalysisLevel>8</AnalysisLevel>
+        <AnalysisMode>all</AnalysisMode>
+        <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
 
-    <!--https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#generatedocumentationfile-->
-    <!--Enabled for IDE0005 code analysis rule: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0005-->
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>
-      $(NoWarn);
-    </NoWarn>
-  </PropertyGroup>
+        <!--https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#generatedocumentationfile-->
+        <!--Enabled for IDE0005 code analysis rule: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0005-->
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>
+            $(NoWarn);
+        </NoWarn>
+        <!-- TreatWarningsAsErrors is changing code style warnings to errors, but we want to keep them as warnings -->
+        <!-- https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/#index -->
+        <!--
+        IDE0003 - Remove this or Me qualification
+        IDE0005 - Remove unnecessary using
+        IDE0007 - Use var instead of explicit type
+        IDE0008 - Use explicit type instead of var
+        IDE0011 - Add braces
+        IDE0016 - Use throw expression
+        IDE0017 - Use object initializers
+        IDE0018 - Inline variable declaration
+        IDE0019 - Use pattern matching to avoid 'as' followed by a 'null' check
+        IDE0020 - Use pattern matching to avoid is check followed by a cast (with variable)
+        IDE0021 - Use expression body for constructors
+        IDE0022 - Use expression body for methods
+        IDE0023 - Use expression body for conversion operators
+        IDE0024 - Use expression body for operators
+        IDE0025 - Use expression body for properties
+        IDE0026 - Use expression body for indexers
+        IDE0027 - Use expression body for accessors
+        IDE0028 - Use collection initializers or expressions
+        IDE0029 - Null check can be simplified
+        IDE0030 - Null check can be simplified
+        IDE0031 - Use null propagation
+        IDE0032 - Use auto-implemented property
+        IDE0033 - Use explicitly provided tuple name
+        IDE0034 - Simplify 'default' expression
+        IDE0036 - Order modifiers
+        IDE0037 - Use inferred member names
+        IDE0038 - Use pattern matching to avoid is check followed by a cast (without variable)
+        IDE0039 - Use local function instead of lambda
+        IDE0040 - Add accessibility modifiers
+        IDE0041 - Use 'is null' check
+        IDE0042 - Deconstruct variable declaration
+        IDE0044 - Add readonly modifier
+        IDE0045 - Use conditional expression for assignment
+        IDE0046 - Use conditional expression for return
+        IDE0049 - Use language keywords instead of framework type names for type references
+        IDE0053 - Use expression body for lambdas
+        IDE0055 - Fix formatting
+        IDE0054 - Use compound assignment
+        IDE0056 - Use index operator
+        IDE0057 - Use range operator
+        IDE0058 - Remove unnecessary expression value
+        IDE0059 - Remove unnecessary value assignment
+        IDE0060 - Remove unused parameter
+        IDE0061 - Use expression body for local functions
+        IDE0062 - Make local function static
+        IDE0063 - Use simple 'using' statement
+        IDE0065 - 'using' directive placement
+        IDE0066 - Use switch expression
+        IDE0070 - Use 'System.HashCode.Combine'
+        IDE0071 - Simplify interpolation
+        IDE0074 - Use coalesce compound assignment
+        IDE0075 - Simplify conditional expression
+        IDE0078 - csharp_style_prefer_pattern_matching
+        IDE0079 - Remove unnecessary suppression
+        IDE0083 - Use pattern matching (not operator)
+        IDE0090 - Simplify new expression
+        IDE0130 - Namespace does not match folder structure
+        IDE0150 - Prefer 'null' check over type check
+        IDE0161 - Use file-scoped namespace
+        IDE0170 - Simplify property pattern
+        IDE0180 - Use tuple to swap values
+        IDE0200 - Remove unnecessary lambda expression
+        IDE0210 - Convert to top-level statements
+        IDE0220 - Add explicit cast in foreach loop
+        IDE0230 - Use UTF-8 string literal
+        IDE0250 - Struct can be made 'readonly'
+        IDE0251 - Member can be made 'readonly'
+        IDE0270 - Null check can be simplified
+        IDE0290 - Use primary constructor
+        IDE0320 - Make anonymous function static
+        IDE0330 - Prefer 'System.Threading.Lock'
+        IDE0340 - Use unbound generic type
+        IDE1005 - Use conditional delegate call
+        IDE1006 - Naming rule violation
+        IDE2000 - dotnet_style_allow_multiple_blank_lines_experimental
+        IDE2001 - csharp_style_allow_embedded_statements_on_same_line_experimental
+        IDE2002 - csharp_style_allow_blank_lines_between_consecutive_braces_experimental
+        IDE2003 - dotnet_style_allow_statement_immediately_after_block_experimental
+        IDE2004 - csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental
+        IDE2005 - Blank line not allowed after conditional expression token
+        IDE2006 - csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimental
+        IDE2007 - csharp_style_allow_blank_line_after_token_in_conditional_expression_experimental
+        CS0612 - 'member' is obsolete
+        CS0618 - 'member' is obsolete: 'text'
+        -->
+        <WarningsNotAsErrors>
+            $(WarningsNotAsErrors);
+            IDE0003;IDE0005;IDE0007;IDE0008;IDE0011;IDE0016;IDE0017;IDE0018;IDE0019;
+            IDE0020;IDE0021;IDE0022;IDE0023;IDE0024;IDE0025;IDE0026;IDE0027;IDE0028;
+            IDE0029;IDE0030;IDE0031;IDE0032;IDE0033;IDE0034;IDE0036;IDE0037;IDE0038;
+            IDE0039;IDE0040;IDE0041;IDE0042;IDE0044;IDE0045;IDE0046;IDE0049;IDE0053;
+            IDE0054;IDE0055;IDE0056;IDE0057;IDE0058;IDE0059;IDE0060;IDE0061;IDE0062;
+            IDE0063;IDE0065;IDE0066;IDE0070;IDE0071;IDE0074;IDE0075;IDE0078;IDE0079;
+            IDE0083;IDE0090;IDE0130;IDE0150;IDE0161;IDE0170;IDE0180;IDE0200;IDE0210;
+            IDE0220;IDE0230;IDE0250;IDE0251;IDE0270;IDE0290;IDE0320;IDE0330;IDE0340;
+            IDE1005;IDE1006;IDE2000;IDE2001;IDE2002;IDE2003;IDE2004;IDE2005;IDE2006;
+            IDE2007;CS0612;CS0618
+        </WarningsNotAsErrors>
+    </PropertyGroup>
 
-  <PropertyGroup Label="Other">
-    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
-  </PropertyGroup>
+    <PropertyGroup Label="Other">
+        <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+    </PropertyGroup>
 
-  <PropertyGroup Label="Known Folders">
-    <SrcPath>$(SolutionDir)\src</SrcPath>
-    <TestsPath>$(SolutionDir)\tests</TestsPath>
-  </PropertyGroup>
+    <PropertyGroup Label="Known Folders">
+        <SrcPath>$(SolutionDir)\src</SrcPath>
+        <TestsPath>$(SolutionDir)\tests</TestsPath>
+    </PropertyGroup>
 
 </Project>
