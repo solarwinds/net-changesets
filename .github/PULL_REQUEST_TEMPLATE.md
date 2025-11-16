@@ -12,9 +12,9 @@ Add the issue number here. e.g. #123
 
 # Checklist
 
-- [ ] I have double checked my own changes
+- [ ] I have double-checked my own changes
 - [ ] I have read the [Contribution Guidelines](https://github.com/solarwinds/net-changesets/blob/main/CONTRIBUTING.md)
-- [ ] Include the issue number (#xxx) in branch name and PR title and description
+- [ ] Include the issue number (#xxx) in the branch name, PR title, and PR description in the Issue number section above
 - [ ] Provide a reasonable description of the PR in the [Changes](#Changes) section
 - [ ] I have commented on the issue above and discussed the intended changes
 - [ ] All newly added code is adequately covered by tests

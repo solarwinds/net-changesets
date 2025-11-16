@@ -6,7 +6,7 @@ We do very welcome everyone who wants to contribute to this repository, provided
 
 Please **discuss any changes you wish to make** with the net-changesets maintainers via GitHub issues before proceeding.
 
-If you don’t have a specific idea in mind, you can pick an issue from the [roadmap](ROADMAP.md). Your help is greatly appreciated!
+If you don’t have a specific idea in mind, you can pick an issue from the [roadmap](https://github.com/solarwinds/net-changesets/blob/main/docs/config-file-options.md). Your help is greatly appreciated!
 
 ## Design considerations
 
@@ -31,7 +31,7 @@ Always consider the following aspects:
 - **Do not make any additional changes unrelated to your GitHub issue.**
 - **Every change must be covered by a unit or integration test.**
 - **Write clean, self-documenting code** and add XML comments to newly added code.
-- **Edit or add documentation** in the `docs` folder or in [README.md](README.md).
+- **Edit or add documentation** in the `docs` folder or in [README.md](https://github.com/solarwinds/net-changesets/blob/main/README.md).
 
 #### Local Installation
 
@@ -49,7 +49,7 @@ dotnet tool install solarwinds.changesets --global --add-source ./nupkg --versio
 
 This project uses only first-party [.NET source code analysis](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview?tabs=net-9) from Microsoft.
 
-The [.editorconfig](.editorconfig) and [Directory.Build.props](Directory.Build.props) files contain the configuration for code style and quality.
+The [.editorconfig](https://github.com/solarwinds/net-changesets/blob/main/.editorconfig) and [Directory.Build.props](https://github.com/solarwinds/net-changesets/blob/main/Directory.Build.props) files contain the configuration for code style and quality.
 
 - **Code style (`IDE****`) analyzers are disabled during build time.**
   - They are checked in PR CI as the last step.
@@ -85,4 +85,4 @@ Create a pull request only if:
 - **PR author will reply** (for example, confirm that requested changes have been implemented or discuss why a suggested change may not be appropriate).
 - **Reviewer will resolve comments** once satisfied with the changes or explanations.
 
-Additional information can be found in [PULL_REQUEST_TEMPLATE](.github/PULL_REQUEST_TEMPLATE.md).
+Additional information can be found in [PULL_REQUEST_TEMPLATE](https://github.com/solarwinds/net-changesets/blob/main/.github/PULL_REQUEST_TEMPLATE.md).
