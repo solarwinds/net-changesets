@@ -6,7 +6,7 @@ We do very welcome everyone who wants to contribute to this repository, provided
 
 Please **discuss any changes you wish to make** with the net-changesets maintainers via GitHub issues before proceeding.
 
-If you don’t have a specific idea in mind, you can pick an issue from the [roadmap](https://github.com/solarwinds/net-changesets/blob/main/docs/config-file-options.md). Your help is greatly appreciated!
+If you don’t have a specific idea in mind, you can pick an issue from the [roadmap](https://github.com/solarwinds/net-changesets/blob/main/ROADMAP.md). Your help is greatly appreciated!
 
 ## Design considerations
 
