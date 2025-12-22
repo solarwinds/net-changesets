@@ -8,7 +8,7 @@ namespace SolarWinds.Changesets.Tests.Version;
 [TestFixture]
 internal sealed class ChangelogFileWriterTests
 {
-    private static readonly string s_changelogFilePath = Path.Combine(Environment.CurrentDirectory, Constants.ChangelogFileName);
+    private static readonly string s_changelogFilePath = Path.Join(Environment.CurrentDirectory, Constants.ChangelogFileName);
 
     [Test]
     public async Task GenerateChangelogFilesAsync_GeneratesNewFile_WhenFileDoesNotExist()
@@ -20,7 +20,7 @@ internal sealed class ChangelogFileWriterTests
             {
                 ModuleName = "Project",
                 CurrentVersion = new Semver(1, 0, 0),
-                ModuleCsProjFilePath = Path.Combine(Environment.CurrentDirectory, "project.csproj"),
+                ModuleCsProjFilePath = Path.Join(Environment.CurrentDirectory, "project.csproj"),
                 Changes = [("Something has changed", BumpType.Minor)]
             }];
 
@@ -52,7 +52,7 @@ internal sealed class ChangelogFileWriterTests
             {
                 ModuleName = "Project",
                 CurrentVersion = new Semver(1, 0, 0),
-                ModuleCsProjFilePath = Path.Combine(Environment.CurrentDirectory, "project.csproj"),
+                ModuleCsProjFilePath = Path.Join(Environment.CurrentDirectory, "project.csproj"),
                 Changes = [
                     ("change1", BumpType.Minor),
                     ("change2", BumpType.Major)
@@ -64,7 +64,7 @@ internal sealed class ChangelogFileWriterTests
             {
                 ModuleName = "Project",
                 CurrentVersion = new Semver(2, 0, 0),
-                ModuleCsProjFilePath = Path.Combine(Environment.CurrentDirectory, "project.csproj"),
+                ModuleCsProjFilePath = Path.Join(Environment.CurrentDirectory, "project.csproj"),
                 Changes = [
                     ("change3", BumpType.Minor),
                     ("change4", BumpType.Major)
@@ -116,7 +116,7 @@ internal sealed class ChangelogFileWriterTests
             {
                 ModuleName = "Project",
                 CurrentVersion = new Semver(1, 0, 0),
-                ModuleCsProjFilePath = Path.Combine(Environment.CurrentDirectory, "project.csproj"),
+                ModuleCsProjFilePath = Path.Join(Environment.CurrentDirectory, "project.csproj"),
                 Changes = [
                     ("change1", BumpType.Minor),
                     ("change2", BumpType.Major)
@@ -126,7 +126,7 @@ internal sealed class ChangelogFileWriterTests
             {
                 ModuleName = "Project1",
                 CurrentVersion = new Semver(1, 0, 0),
-                ModuleCsProjFilePath = Path.Combine(Environment.CurrentDirectory, "TestData", "project1.csproj"),
+                ModuleCsProjFilePath = Path.Join(Environment.CurrentDirectory, "TestData", "project1.csproj"),
                 Changes = [
                     ("change3", BumpType.Minor),
                     ("change4", BumpType.Major)
@@ -151,7 +151,7 @@ internal sealed class ChangelogFileWriterTests
         await fileWriter.GenerateChangelogFilesAsync(changes);
 
         File.Exists(s_changelogFilePath).Should().BeTrue();
-        File.Exists(Path.Combine(changes.Last().ModuleDirectoryPath, Constants.ChangelogFileName)).Should().BeTrue();
+        File.Exists(Path.Join(changes.Last().ModuleDirectoryPath, Constants.ChangelogFileName)).Should().BeTrue();
         AssertChangelogContent(expectedContent);
     }
 
@@ -164,14 +164,14 @@ internal sealed class ChangelogFileWriterTests
         {
             foreach (string file in mdFiles)
             {
-                File.Delete(Path.Combine(Environment.CurrentDirectory, file));
+                File.Delete(file);
             }
         }
     }
 
     private static void AssertChangelogContent(string expectedChangelogContent)
     {
-        string actualContent = File.ReadAllText(Path.Combine(Environment.CurrentDirectory, Constants.ChangelogFileName));
+        string actualContent = File.ReadAllText(Path.Join(Environment.CurrentDirectory, Constants.ChangelogFileName));
 
         actualContent.Should().Be(expectedChangelogContent);
     }
