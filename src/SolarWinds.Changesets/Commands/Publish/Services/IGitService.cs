@@ -1,6 +1,6 @@
 using SolarWinds.Changesets.Shared;
 
-namespace SolarWinds.Changesets.Services;
+namespace SolarWinds.Changesets.Commands.Publish.Services;
 
 /// <summary>
 /// Provides Git-related services, such as retrieving file differences.

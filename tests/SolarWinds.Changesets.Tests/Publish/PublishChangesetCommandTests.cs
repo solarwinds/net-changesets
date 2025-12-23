@@ -2,8 +2,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using SolarWinds.Changesets.Commands.Init;
 using SolarWinds.Changesets.Commands.Publish;
+using SolarWinds.Changesets.Commands.Publish.Services;
 using SolarWinds.Changesets.Infrastructure;
-using SolarWinds.Changesets.Services;
 using SolarWinds.Changesets.Shared;
 using Spectre.Console.Testing;
 

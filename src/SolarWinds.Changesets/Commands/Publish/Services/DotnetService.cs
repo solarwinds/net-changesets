@@ -1,6 +1,6 @@
 using SolarWinds.Changesets.Shared;
 
-namespace SolarWinds.Changesets.Services;
+namespace SolarWinds.Changesets.Commands.Publish.Services;
 
 /// <inheritdoc />
 public sealed class DotnetService : IDotnetService

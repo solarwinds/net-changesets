@@ -1,6 +1,6 @@
 using SolarWinds.Changesets.Shared;
 
-namespace SolarWinds.Changesets.Services;
+namespace SolarWinds.Changesets.Commands.Publish.Services;
 
 /// <inheritdoc />
 public sealed class GitService : IGitService
@@ -23,7 +23,7 @@ public sealed class GitService : IGitService
     {
         return await _processExecutor.Execute(
             "git",
-            $"diff --name-only {sourcePath}",
+            $"diff --name-only HEAD~1 HEAD -- '*.csproj' {sourcePath}",
             Constants.WorkingDirectoryFullPath
         );
     }

@@ -1,6 +1,6 @@
 using SolarWinds.Changesets.Shared;
 
-namespace SolarWinds.Changesets.Services;
+namespace SolarWinds.Changesets.Commands.Publish.Services;
 
 /// <summary>
 /// Provides functionality to interact with the .NET CLI for operations such as packing and publishing NuGet packages.

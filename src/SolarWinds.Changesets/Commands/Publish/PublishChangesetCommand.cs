@@ -1,4 +1,4 @@
-using SolarWinds.Changesets.Services;
+using SolarWinds.Changesets.Commands.Publish.Services;
 using SolarWinds.Changesets.Shared;
 using Spectre.Console;
 using Spectre.Console.Cli;
