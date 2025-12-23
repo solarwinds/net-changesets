@@ -34,7 +34,7 @@ public sealed class DotnetService : IDotnetService
             throw new ArgumentException("Source path cannot be null or empty.", nameof(packageSource));
         }
 
-        string dotnetCommand = $"nuget push {Path.Combine(Constants.NupkgOutputFullPath, "*.nupkg")}";
+        string dotnetCommand = $"nuget push {Path.Join(Constants.NupkgOutputFullPath, "*.nupkg")}";
 
         dotnetCommand += $" --source {packageSource}";
 

@@ -28,15 +28,15 @@ public static class Constants
     /// <summary>
     /// Gets the full path to the changeset directory.
     /// </summary>
-    public static string ChangesetDirectoryFullPath { get; } = Path.Combine(WorkingDirectoryFullPath, ChangesetDirectoryName);
+    public static string ChangesetDirectoryFullPath { get; } = Path.Join(WorkingDirectoryFullPath, ChangesetDirectoryName);
 
     /// <summary>
     /// Gets the full path to the changeset configuration file.
     /// </summary>
-    public static string ChangesetConfigFileFullPath { get; } = Path.Combine(ChangesetDirectoryFullPath, ConfigFileName);
+    public static string ChangesetConfigFileFullPath { get; } = Path.Join(ChangesetDirectoryFullPath, ConfigFileName);
 
     /// <summary>
     /// Gets the full path to the directory where NuGet packages are output.
     /// </summary>
-    public static string NupkgOutputFullPath { get; } = Path.Combine(WorkingDirectoryFullPath, "nupkg");
+    public static string NupkgOutputFullPath { get; } = Path.Join(WorkingDirectoryFullPath, "nupkg");
 }

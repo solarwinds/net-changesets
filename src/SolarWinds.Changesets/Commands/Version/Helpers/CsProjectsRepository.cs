@@ -22,7 +22,7 @@ internal sealed partial class CsProjectsRepository : ICsProjectsRepository
     {
         List<CsProject> csProjects = [];
 
-        string[] csprojFilePaths = GetCsprojFilePaths(Path.Combine(Constants.WorkingDirectoryFullPath, changesetConfig.SourcePath));
+        string[] csprojFilePaths = GetCsprojFilePaths(Path.Join(Constants.WorkingDirectoryFullPath, changesetConfig.SourcePath));
 
         foreach (string csprojFilePath in csprojFilePaths)
         {

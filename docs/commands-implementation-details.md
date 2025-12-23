@@ -8,7 +8,7 @@ On this page, we will discuss implementation details that differ slightly from t
 changeset init
 ```
 
-This command works the same, only difference is that we have different configuration schema to satisfy .NET implementation. You can read more about it in [config-file-options.md](./config-file-options.md).
+This command works the same, only difference is that we have different configuration schema to satisfy .NET implementation. You can read more about it in [config-file-options.md](https://github.com/solarwinds/net-changesets/blob/main/docs/config-file-options.md).
 
 ## `add`
 

@@ -11,9 +11,9 @@ namespace SolarWinds.Changesets.Tests.Version;
 [TestFixture]
 internal sealed class CsProjectsRepositoryTests
 {
-    private static readonly string s_testProjectWithVersion = Path.Combine(Environment.CurrentDirectory, "TestData", "SubDirectory", "TestProjectWithVersion.csproj");
-    private static readonly string s_testProjectWithoutVersion = Path.Combine(Environment.CurrentDirectory, "TestData", "TestProjectWithoutVersion.csproj");
-    private static readonly string s_testFilePath = Path.Combine(Environment.CurrentDirectory, "TestData", "test.csproj");
+    private static readonly string s_testProjectWithVersion = Path.Join(Environment.CurrentDirectory, "TestData", "SubDirectory", "TestProjectWithVersion.csproj");
+    private static readonly string s_testProjectWithoutVersion = Path.Join(Environment.CurrentDirectory, "TestData", "TestProjectWithoutVersion.csproj");
+    private static readonly string s_testFilePath = Path.Join(Environment.CurrentDirectory, "TestData", "test.csproj");
 
     [TearDown]
     public void TearDown()
@@ -81,7 +81,7 @@ internal sealed class CsProjectsRepositoryTests
     {
         ChangesetConfig config = new()
         {
-            SourcePath = Path.Combine(Environment.CurrentDirectory, "TestData")
+            SourcePath = "TestData"
         };
 
         TestConsole testConsole = new();

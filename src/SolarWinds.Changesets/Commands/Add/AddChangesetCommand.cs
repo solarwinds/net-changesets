@@ -65,7 +65,7 @@ internal sealed class AddChangesetCommand : ConfigurationCommandBase
     /// </returns>
     public override async Task<int> ExecuteCommandAsync(CommandContext context)
     {
-        string[] projectNames = _projectFileNamesLocator.GetProjectFileNames(Path.Combine(Constants.WorkingDirectoryFullPath, ChangesetConfig.SourcePath));
+        string[] projectNames = _projectFileNamesLocator.GetProjectFileNames(Path.Join(Constants.WorkingDirectoryFullPath, ChangesetConfig.SourcePath));
 
         string[] selectedProjects = _console.Prompt(
             new MultiSelectionPrompt<string>()
@@ -104,7 +104,7 @@ internal sealed class AddChangesetCommand : ConfigurationCommandBase
         {
             string changesetFileName = GenerateRandomWord(15);
             string changesetFileNameWithExtension = Path.ChangeExtension(changesetFileName, MarkDownExtension);
-            changesetFileFullPath = Path.Combine(changesetFolderPath, changesetFileNameWithExtension);
+            changesetFileFullPath = Path.Join(changesetFolderPath, changesetFileNameWithExtension);
         } while (File.Exists(changesetFileFullPath));
 
         return changesetFileFullPath;

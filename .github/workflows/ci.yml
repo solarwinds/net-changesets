@@ -3,41 +3,41 @@ permissions:
   contents: read
 
 on:
-    pull_request:
-        branches: [ "main" ]
-    push:
-        branches: [ "main" ]
+  pull_request:
+    branches: ["main"]
+  push:
+    branches: ["main"]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.406
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.406
 
-    - name: Restore dependencies
-      run: dotnet restore --packages ./packages
+      - name: Restore dependencies
+        run: dotnet restore --packages ./packages
 
-    - name: Build
-      run: dotnet build -c Release --no-restore
+      - name: Build
+        run: dotnet build -c Release --no-restore
 
-    - name: Test
-      run: dotnet test -c Release --no-restore --no-build --verbosity normal
+      - name: Test
+        run: dotnet test -c Release --no-restore --no-build --verbosity normal
 
-    - name: Pack
-      run: dotnet pack -c Release --no-restore --no-build
+      - name: Pack
+        run: dotnet pack -c Release --no-restore --no-build
 
-    - name: Upload NuGet package as artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: nuget-package
-        path: ./nupkg/*.nupkg
+      - name: Upload NuGet package as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-package
+          path: ./nupkg/*.nupkg
 
-    - name: Format
-      run: dotnet format --no-restore --verify-no-changes
+      - name: Format
+        run: dotnet format --no-restore --verify-no-changes

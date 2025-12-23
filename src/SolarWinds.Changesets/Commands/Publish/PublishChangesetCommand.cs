@@ -57,7 +57,7 @@ internal sealed class PublishChangesetCommand : ConfigurationCommandBase
 
         foreach (string csharpProjectName in changedCsharpProjectNames)
         {
-            string csharpProjectFullPath = Path.Combine(Constants.WorkingDirectoryFullPath, csharpProjectName);
+            string csharpProjectFullPath = Path.Join(Constants.WorkingDirectoryFullPath, csharpProjectName);
 
             ProcessOutput packOutput = await _dotnetService.Pack(csharpProjectFullPath);
 

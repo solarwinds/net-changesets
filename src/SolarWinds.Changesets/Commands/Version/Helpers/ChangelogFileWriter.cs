@@ -23,7 +23,10 @@ internal sealed class ChangelogFileWriter : IChangelogFileWriter
             }
             else
             {
-                await File.WriteAllLinesAsync(moduleChangelogFilePath, [$"# {moduleChangelog.ModuleName}", string.Empty, changelogEntry]);
+                await File.WriteAllLinesAsync(
+                    moduleChangelogFilePath,
+                    [$"# {moduleChangelog.ModuleName}", string.Empty, changelogEntry.TrimEnd('\r', '\n')] // Trim end to avoid extra new lines at the end of the file
+                );
             }
         }
     }
@@ -39,12 +42,12 @@ internal sealed class ChangelogFileWriter : IChangelogFileWriter
                 BumpType = bumpToChangesGroup.Key,
                 Descriptions = bumpToChangesGroup.Select(change => change.Description)
             })
-            .OrderByDescending(bumpWithChanges => (int)bumpWithChanges.BumpType);
+            .OrderByDescending(bumpWithChanges => (int)bumpWithChanges.BumpType)
+            .ToList();
 
         return
         $"""
         ## {newVersion}
-
         {string.Join("",
                 groupedDescriptions.Select(groupedDesc => GenerateChangelogBumpTypeSection(groupedDesc.BumpType, groupedDesc.Descriptions))
             )}
@@ -55,11 +58,11 @@ internal sealed class ChangelogFileWriter : IChangelogFileWriter
     {
         return
        $"""
-       ### {bumpType} Changes
+
+       **{bumpType} Changes**:
 
        {string.Join(Environment.NewLine, descriptions.Select(description => $"- {description}"))}
-       
-       
+
        """;
     }
 }
