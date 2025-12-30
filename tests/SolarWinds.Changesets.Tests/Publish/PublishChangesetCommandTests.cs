@@ -46,7 +46,7 @@ internal sealed class PublishChangesetCommandTests
     [Test]
     public void PublishChangesetCommand_CompletesSuccesfully_HappyPath()
     {
-        _gitServiceMock.Setup(x => x.GetDiff(It.IsAny<string>())).Returns(Task.FromResult(new ProcessOutput(["A.csproj", "B.csproj"], 0)));
+        _gitServiceMock.Setup(x => x.GetDiff(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(new ProcessOutput(["A.csproj", "B.csproj"], 0)));
         _dotnetServiceMock.Setup(x => x.Pack(It.IsAny<string>())).Returns(Task.FromResult(new ProcessOutput(["Project A packed", "Project B packed"], 0)));
         _dotnetServiceMock.Setup(x => x.Publish(It.IsAny<string>())).Returns(Task.FromResult(new ProcessOutput(["Project A published", "Project B published"], 0)));
 
@@ -58,7 +58,7 @@ internal sealed class PublishChangesetCommandTests
     [Test]
     public void PublishChangesetCommand_WhenNoCsprojToPublish_FinishesWithError()
     {
-        _gitServiceMock.Setup(x => x.GetDiff(It.IsAny<string>())).Returns(Task.FromResult(new ProcessOutput([], 0)));
+        _gitServiceMock.Setup(x => x.GetDiff(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(new ProcessOutput([], 0)));
 
         CommandAppResult result = _app.Run();
 
@@ -68,7 +68,7 @@ internal sealed class PublishChangesetCommandTests
     [Test]
     public void PublishChangesetCommand_WhenPublishFails_FinishesWithError()
     {
-        _gitServiceMock.Setup(x => x.GetDiff(It.IsAny<string>())).Returns(Task.FromResult(new ProcessOutput(["A.csproj", "B.csproj"], 0)));
+        _gitServiceMock.Setup(x => x.GetDiff(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(new ProcessOutput(["A.csproj", "B.csproj"], 0)));
         _dotnetServiceMock.Setup(x => x.Pack(It.IsAny<string>())).Returns(Task.FromResult(new ProcessOutput(["Project A packed", "Project B packed"], 0)));
         _dotnetServiceMock.Setup(x => x.Publish(It.IsAny<string>())).Returns(Task.FromResult(new ProcessOutput(["Some error ..."], 1)));
 

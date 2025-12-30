@@ -40,7 +40,7 @@ internal sealed class PublishChangesetCommand : ConfigurationCommandBase
         _console.WriteLine("Determining projects to publish ...");
         _console.WriteLine();
 
-        ProcessOutput processOutput = await _gitService.GetDiff(ChangesetConfig.SourcePath);
+        ProcessOutput processOutput = await _gitService.GetDiff(Constants.WorkingDirectoryFullPath, ChangesetConfig.SourcePath);
         List<string> changedCsharpProjectNames = processOutput.Output.Where(x => x.Contains(".csproj", StringComparison.Ordinal)).ToList();
 
         if (changedCsharpProjectNames.Count == 0)

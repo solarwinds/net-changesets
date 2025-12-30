@@ -19,12 +19,12 @@ public sealed class GitService : IGitService
     }
 
     /// <inheritdoc />
-    public async Task<ProcessOutput> GetDiff(string sourcePath)
+    public async Task<ProcessOutput> GetDiff(string workingDirectory, string sourcePath)
     {
         return await _processExecutor.Execute(
             "git",
-            $"diff --name-only HEAD~1 HEAD -- '*.csproj' {sourcePath}",
-            Constants.WorkingDirectoryFullPath
+            $"diff --name-only HEAD~1 HEAD {sourcePath}",
+            workingDirectory
         );
     }
 }
