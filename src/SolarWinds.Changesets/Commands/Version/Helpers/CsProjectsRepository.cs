@@ -29,15 +29,9 @@ internal sealed partial class CsProjectsRepository : ICsProjectsRepository
             XDocument csprojXDocument = XDocument.Load(csprojFilePath);
             string projectName = Path.GetFileNameWithoutExtension(csprojFilePath);
 
-            XElement? projectVersionXElement = csprojXDocument.Descendants().SingleOrDefault(d => d.Name.LocalName == "Version");
-            Semver? projectVersion = projectVersionXElement is not null
-                ? Semver.FromString(projectVersionXElement.Value)
-                : new(0, 0, 0);
-
-            if (projectVersion is null)
+            Semver projectVersion = GetProjectVersion(csprojXDocument, projectName);
+            if (projectVersion == Semver.Empty)
             {
-                _console.MarkupLine($"[yellow]Version {projectVersionXElement?.Value} could not be parsed " +
-                    $"for project {projectName}. This may have unexpected consequences on the 'version' command![/]");
                 continue;
             }
 
@@ -49,7 +43,6 @@ internal sealed partial class CsProjectsRepository : ICsProjectsRepository
                 .ToArray();
 
             csProjects.Add(new(projectName, projectVersion, projectReferences, csprojFilePath));
-
         }
 
         return csProjects.ToArray();
@@ -83,6 +76,21 @@ internal sealed partial class CsProjectsRepository : ICsProjectsRepository
         string newVersionContent = VersionRegex().Replace(csProjContent, match => $"{match.Groups[1].Value}{newVersion}{match.Groups[3].Value}");
 
         await File.WriteAllTextAsync(moduleCsProjFilePath, newVersionContent);
+    }
+
+    private Semver GetProjectVersion(XDocument csprojXDocument, string projectName)
+    {
+        XElement? projectVersionXElement = csprojXDocument.Descendants().SingleOrDefault(d => d.Name.LocalName == "Version");
+
+        if (projectVersionXElement is not null && Semver.TryParse(projectVersionXElement.Value, out Semver? parsedVersion))
+        {
+            return parsedVersion;
+        }
+
+        _console.MarkupLine($"[yellow]Version {projectVersionXElement?.Value} could not be parsed " +
+            $"for project {projectName}. This may have unexpected consequences on the 'version' command![/]");
+
+        return Semver.Empty;
     }
 
     [GeneratedRegex(@"(<Version>)(.*?)(</Version>)")]
