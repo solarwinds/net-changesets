@@ -36,7 +36,7 @@ internal sealed class CsProjectsRepositoryTests
                 ModuleCsProjFilePath = s_testFilePath,
                 Changes = [("abc", BumpType.Minor)]
             }];
-        TestConsole testConsole = new();
+        using TestConsole testConsole = new();
         CsProjectsRepository csProjFileHelper = new(testConsole);
 
         await csProjFileHelper.UpdateCsProjectsVersionAsync(changes);
@@ -44,7 +44,6 @@ internal sealed class CsProjectsRepositoryTests
         Semver? versionFromFile = LoadVersionFromProjectFile(s_testFilePath);
 
         versionFromFile?.Should().BeEquivalentTo(new Semver(1, 1, 0));
-        testConsole.Dispose();
     }
 
     [Test]
@@ -65,7 +64,7 @@ internal sealed class CsProjectsRepositoryTests
                 Changes = [("abc", BumpType.Minor)]
             }];
 
-        TestConsole testConsole = new();
+        using TestConsole testConsole = new();
         CsProjectsRepository csProjFileHelper = new(testConsole);
 
         await csProjFileHelper.UpdateCsProjectsVersionAsync(changes);
@@ -73,7 +72,6 @@ internal sealed class CsProjectsRepositoryTests
         LoadVersionFromProjectFile(s_testFilePath).Should().BeNull();
 
         ComputeFileHash(s_testFilePath).Should().Be(hashOriginal);
-        testConsole.Dispose();
     }
 
     [Test]
@@ -84,7 +82,7 @@ internal sealed class CsProjectsRepositoryTests
             SourcePath = "TestData"
         };
 
-        TestConsole testConsole = new();
+        using TestConsole testConsole = new();
         CsProjectsRepository csProjFileHelper = new(testConsole);
 
         CsProject[] csProjects = csProjFileHelper.GetCsProjects(config);
@@ -97,8 +95,6 @@ internal sealed class CsProjectsRepositoryTests
             .Should()
             .Be(2)
             ;
-
-        testConsole.Dispose();
     }
 
     private static void DeleteFile(string path)
