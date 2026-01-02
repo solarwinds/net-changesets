@@ -53,13 +53,36 @@ If there are any existing changesets the command generates changelogs for every 
 changeset publish
 ```
 
-Creates nuget packages of affected projects and publishes them to the predefined package source. The command:
+Creates NuGet packages of affected projects and publishes them to the predefined package source.
 
-1. Gets all modified `.csproj` files from the predefined working directory using `git diff --name-only`.
-1. Creates nuget package using `nuget pack` for every csproj file.
-1. Pushes the created nuget packages to the predefined nuget source using `nuget push`.
+### How it works (current .NET implementation)
 
-The package source can be configured via `config.json` file.
+Currently, the `publish` command assumes that the changes made by the `version` command have **already been committed**. The intended flow is:
+
+1. Run `changeset version` to bump versions, update changelogs, and delete processed changesets.
+2. Commit the changes produced by the `version` command.
+3. Run `changeset publish` to create and push NuGet packages based on the committed changes.
+
+The `publish` command does following:
+
+1. Gets all modified `.csproj` files from the predefined source directory by comparing the last two commits `git diff --name-only HEAD~1 HEAD {sourcePath}`
+2. For each changed `.csproj` file, creates a NuGet package using `dotnet pack`.
+3. Pushes the created NuGet packages to the predefined NuGet source using `dotnet nuget push`.
+
+The package source can be configured via the `.changeset/config.json` file (see `docs/config-file-options.md`).
+
+This approach relies on the fact that the `version` command only performs three types of changes:
+
+- Deleting processed changeset files from the `.changeset` folder
+- Modifying or creating `CHANGELOG.md` files
+- Bumping versions in `.csproj` files
+
+By looking at the diff between `HEAD~1` and `HEAD`, `publish` can safely identify which projects had their versions bumped and therefore need to be published.
+
+### Comparison with original Node.js changesets implementation
+
+The original `@changesets/cli` implementation for Node.js works differently. Instead of relying on a Git diff,
+it checks whether a package with the **current version** from `package.json` already exists in the package registry; if it does not, the package is published.
 
 ## `status`
 
