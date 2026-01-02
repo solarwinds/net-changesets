@@ -57,6 +57,8 @@ internal sealed class VersionChangesetCommandTests
 
         CommandAppResult result = app.Run();
 
+        result.ExitCode.Should().Be(ResultCodes.Success, result.Output);
+
         AssertVersionOutput();
     }
 
