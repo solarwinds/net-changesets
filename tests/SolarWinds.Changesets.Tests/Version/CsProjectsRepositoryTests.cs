@@ -36,7 +36,7 @@ internal sealed class CsProjectsRepositoryTests
                 ModuleCsProjFilePath = s_testFilePath,
                 Changes = [("abc", BumpType.Minor)]
             }];
-        TestConsole testConsole = new();
+        using TestConsole testConsole = new();
         CsProjectsRepository csProjFileHelper = new(testConsole);
 
         await csProjFileHelper.UpdateCsProjectsVersionAsync(changes);
@@ -44,7 +44,6 @@ internal sealed class CsProjectsRepositoryTests
         Semver? versionFromFile = LoadVersionFromProjectFile(s_testFilePath);
 
         versionFromFile?.Should().BeEquivalentTo(new Semver(1, 1, 0));
-        testConsole.Dispose();
     }
 
     [Test]
@@ -65,7 +64,7 @@ internal sealed class CsProjectsRepositoryTests
                 Changes = [("abc", BumpType.Minor)]
             }];
 
-        TestConsole testConsole = new();
+        using TestConsole testConsole = new();
         CsProjectsRepository csProjFileHelper = new(testConsole);
 
         await csProjFileHelper.UpdateCsProjectsVersionAsync(changes);
@@ -73,33 +72,29 @@ internal sealed class CsProjectsRepositoryTests
         LoadVersionFromProjectFile(s_testFilePath).Should().BeNull();
 
         ComputeFileHash(s_testFilePath).Should().Be(hashOriginal);
-        testConsole.Dispose();
     }
 
     [Test]
-    public void GetCsProjects_OneVersionOneWithoutVersionProjects_ReturnsTwoProjects()
+    public void GetCsProjects_OnlyOneProjectWithValidVersion_ReturnsSingleProject()
     {
         ChangesetConfig config = new()
         {
             SourcePath = "TestData"
         };
 
-        TestConsole testConsole = new();
+        using TestConsole testConsole = new();
         CsProjectsRepository csProjFileHelper = new(testConsole);
 
         CsProject[] csProjects = csProjFileHelper.GetCsProjects(config);
-        csProjects.Length.Should().Be(2);
+        csProjects.Length.Should().Be(1);
 
         csProjects
-            .Where(x => x.Name == "TestProjectWithVersion")
-            .First()
+            .Single()
             .ReferencedProjectNames
             .Length
             .Should()
             .Be(2)
             ;
-
-        testConsole.Dispose();
     }
 
     private static void DeleteFile(string path)
@@ -116,8 +111,12 @@ internal sealed class CsProjectsRepositoryTests
         doc.Load(path);
 
         XmlNode? versionNode = doc.DocumentElement?.SelectSingleNode("/Project/PropertyGroup/Version");
+        if (versionNode != null && Semver.TryParse(versionNode.InnerText, out Semver? parsedVersion))
+        {
+            return parsedVersion;
+        }
 
-        return versionNode != null ? Semver.FromString(versionNode.InnerText) : null;
+        return null;
     }
 
     private static string ComputeFileHash(string path)

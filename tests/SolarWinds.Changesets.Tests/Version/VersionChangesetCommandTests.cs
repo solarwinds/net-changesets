@@ -57,6 +57,8 @@ internal sealed class VersionChangesetCommandTests
 
         CommandAppResult result = app.Run();
 
+        result.ExitCode.Should().Be(ResultCodes.Success, result.Output);
+
         AssertVersionOutput();
     }
 
@@ -80,8 +82,12 @@ internal sealed class VersionChangesetCommandTests
         doc.Load(path);
 
         XmlNode? versionNode = doc.DocumentElement?.SelectSingleNode("/Project/PropertyGroup/Version");
+        if (versionNode != null && Semver.TryParse(versionNode.InnerText, out Semver? parsedVersion))
+        {
+            return parsedVersion;
+        }
 
-        return versionNode != null ? Semver.FromString(versionNode.InnerText) : null;
+        return null;
     }
 
     private static void CopyDirectory(string sourceDirectory, string destinationDirectory, bool recursive, bool firstRun)

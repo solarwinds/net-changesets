@@ -1,6 +1,6 @@
 using SolarWinds.Changesets.Shared;
 
-namespace SolarWinds.Changesets.Services;
+namespace SolarWinds.Changesets.Commands.Publish.Services;
 
 /// <inheritdoc />
 public sealed class GitService : IGitService
@@ -19,12 +19,12 @@ public sealed class GitService : IGitService
     }
 
     /// <inheritdoc />
-    public async Task<ProcessOutput> GetDiff(string sourcePath)
+    public async Task<ProcessOutput> GetDiff(string workingDirectory, string sourcePath)
     {
         return await _processExecutor.Execute(
             "git",
-            $"diff --name-only {sourcePath}",
-            Constants.WorkingDirectoryFullPath
+            $"diff --name-only HEAD~1 HEAD {sourcePath}",
+            workingDirectory
         );
     }
 }

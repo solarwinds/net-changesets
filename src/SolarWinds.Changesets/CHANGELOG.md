@@ -1,5 +1,14 @@
 # SolarWinds.Changesets
 
+## 0.1.4
+
+**Patch Changes**:
+
+- [[#19](https://github.com/solarwinds/net-changesets/issues/19)] Fix publish command ([PR #14](https://github.com/solarwinds/net-changesets/pull/14))
+  - The `publish` command now compares the last two commits (HEAD~1 and HEAD) instead of comparing the last commit with the working tree to determine which projects were published.
+    This change is required because publishing must be done after version bumps and generated files are committed. Since there is no other reliable way to detect whether the version command was run before publish,
+    the comparison is based on committed changes in `.csproj` files. This is still error-prone if users make manual changes to `.csproj` files and run `publish` command, but it is a reasonable compromise for now.
+
 ## 0.1.3
 
 **Patch Changes**:
