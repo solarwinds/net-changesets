@@ -130,6 +130,50 @@ internal sealed class GitServiceTests
         result.Output.Any(p => p.EndsWith("Project2.csproj", StringComparison.InvariantCulture)).Should().BeTrue();
     }
 
+    [Test]
+    public async Task GetDiff_WithModifiedFsprojFile_ReturnsModifiedProject()
+    {
+        // Arrange
+        string projectName = "FsharpProject";
+        string fsprojAbsolutePath = Path.Join(_tempRepositoryAbsolutePath, $"{projectName}.fsproj");
+
+        // Create initial .fsproj file
+        await File.WriteAllTextAsync(fsprojAbsolutePath, """
+            <Project Sdk="Microsoft.NET.Sdk">
+              <PropertyGroup>
+                <TargetFramework>net8.0</TargetFramework>
+                <Version>1.0.0</Version>
+              </PropertyGroup>
+            </Project>
+        """
+        );
+
+        await ExecuteGitCommand("add .");
+        await ExecuteGitCommand("commit -m \"Initial commit\"");
+
+        // Modify .fsproj file
+        await File.WriteAllTextAsync(fsprojAbsolutePath, """
+            <Project Sdk="Microsoft.NET.Sdk">
+              <PropertyGroup>
+                <TargetFramework>net8.0</TargetFramework>
+                <Version>1.1.0</Version>
+              </PropertyGroup>
+            </Project>
+        """
+        );
+
+        await ExecuteGitCommand("add .");
+        await ExecuteGitCommand("commit -m \"Update version\"");
+
+        // Act
+        ProcessOutput result = await _gitService.GetDiff(_tempRepositoryAbsolutePath, string.Empty);
+
+        // Assert
+        result.ExitCode.Should().Be(0);
+        result.Output.Should().HaveCount(1);
+        result.Output.First().Should().EndWith($"{projectName}.fsproj");
+    }
+
     /// <summary>
     /// Helper method to execute git commands in the test repository using ProcessExecutor.
     /// </summary>

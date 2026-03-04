@@ -14,7 +14,7 @@ internal sealed class VersionChangesetCommand : ConfigurationCommandBase
 {
     private readonly IAnsiConsole _console;
     private readonly IChangesetsRepository _changesetsRepository;
-    private readonly ICsProjectsRepository _csProjFileHelper;
+    private readonly IDotnetProjectsRepository _projectsRepository;
     private readonly IChangelogGenerator _changelogGenerator;
     private readonly IChangelogFileWriter _changelogFileWriter;
 
@@ -26,14 +26,14 @@ internal sealed class VersionChangesetCommand : ConfigurationCommandBase
         IAnsiConsole console,
         IConfigurationService configurationService,
         IChangesetsRepository changesetsRepository,
-        ICsProjectsRepository csProjFileHelper,
+        IDotnetProjectsRepository projectsRepository,
         IChangelogGenerator changelogGenerator,
         IChangelogFileWriter changelogFileWriter
         ) : base(configurationService)
     {
         _console = console;
         _changesetsRepository = changesetsRepository;
-        _csProjFileHelper = csProjFileHelper;
+        _projectsRepository = projectsRepository;
         _changelogGenerator = changelogGenerator;
         _changelogFileWriter = changelogFileWriter;
     }
@@ -48,16 +48,16 @@ internal sealed class VersionChangesetCommand : ConfigurationCommandBase
             return -1;
         }
 
-        CsProject[] csProjects = _csProjFileHelper.GetCsProjects(ChangesetConfig);
-        IEnumerable<ModuleChangelog> changelogs = _changelogGenerator.GetProcessedChangelogs(changesets, csProjects);
+        DotnetProject[] projects = _projectsRepository.GetProjects(ChangesetConfig);
+        IEnumerable<ModuleChangelog> changelogs = _changelogGenerator.GetProcessedChangelogs(changesets, projects);
 
         await _changelogFileWriter.GenerateChangelogFilesAsync(changelogs);
-        await _csProjFileHelper.UpdateCsProjectsVersionAsync(changelogs);
+        await _projectsRepository.UpdateProjectsVersionAsync(changelogs);
         _changesetsRepository.DeleteChangesets(Constants.ChangesetDirectoryFullPath);
 
         _console.WriteLine("All files have been updated. Review them and commit at your leisure.");
 
-        string message = $"Affected projects: '{string.Join(", ", changelogs.Select(x => Path.GetFileNameWithoutExtension(x.ModuleCsProjFilePath)))}'";
+        string message = $"Affected projects: '{string.Join(", ", changelogs.Select(x => Path.GetFileNameWithoutExtension(x.ModuleProjectFilePath)))}'";
 
         _console.WriteLine(message);
 

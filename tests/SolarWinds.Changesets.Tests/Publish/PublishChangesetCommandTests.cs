@@ -56,7 +56,29 @@ internal sealed class PublishChangesetCommandTests
     }
 
     [Test]
-    public void PublishChangesetCommand_WhenNoCsprojToPublish_FinishesWithError()
+    public void PublishChangesetCommand_WithFsprojFiles_CompletesSuccessfully()
+    {
+        _gitServiceMock.Setup(x => x.GetDiff(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(new ProcessOutput(["A.fsproj", "B.csproj"], 0)));
+        _dotnetServiceMock.Setup(x => x.Pack(It.IsAny<string>())).Returns(Task.FromResult(new ProcessOutput(["Project packed"], 0)));
+        _dotnetServiceMock.Setup(x => x.Publish(It.IsAny<string>())).Returns(Task.FromResult(new ProcessOutput(["Projects published"], 0)));
+
+        CommandAppResult result = _app.Run();
+
+        Assert.That(result.ExitCode, Is.EqualTo(ResultCodes.Success));
+    }
+
+    [Test]
+    public void PublishChangesetCommand_WhenOnlyNonProjectFilesChanged_FinishesWithError()
+    {
+        _gitServiceMock.Setup(x => x.GetDiff(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(new ProcessOutput(["README.md", "file.txt"], 0)));
+
+        CommandAppResult result = _app.Run();
+
+        Assert.That(result.ExitCode, Is.EqualTo(ResultCodes.NoProjectToPublish));
+    }
+
+    [Test]
+    public void PublishChangesetCommand_WhenNoCsprojOrFsprojToPublish_FinishesWithError()
     {
         _gitServiceMock.Setup(x => x.GetDiff(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(new ProcessOutput([], 0)));
 

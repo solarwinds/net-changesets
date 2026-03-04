@@ -5,10 +5,10 @@ namespace SolarWinds.Changesets.Commands.Version;
 internal sealed class ModuleChangelog
 {
     public required string ModuleName { get; init; } = default!;
-    public required string ModuleCsProjFilePath { get; init; } = default!;
+    public required string ModuleProjectFilePath { get; init; } = default!;
     public required Semver CurrentVersion { get; init; } = default!;
     public ICollection<(string Description, BumpType BumpType)> Changes { get; init; } = [];
-    public string ModuleDirectoryPath => Path.GetDirectoryName(ModuleCsProjFilePath)!;
+    public string ModuleDirectoryPath => Path.GetDirectoryName(ModuleProjectFilePath)!;
 
     public Semver GetNewVersion()
     {

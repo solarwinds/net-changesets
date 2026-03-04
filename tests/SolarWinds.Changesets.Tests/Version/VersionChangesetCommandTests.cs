@@ -45,11 +45,11 @@ internal sealed class VersionChangesetCommandTests
         ServiceCollection serviceCollection = new();
 
         serviceCollection.AddSingleton<IConfigurationService, ConfigurationService>();
-        serviceCollection.AddSingleton<IProjectFileNamesLocator, CsharpProjectFileNamesLocator>();
+        serviceCollection.AddSingleton<IProjectFileNamesLocator, DotnetProjectFileNamesLocator>();
         serviceCollection.AddSingleton<IChangesetsRepository, ChangesetsRepository>();
         serviceCollection.AddSingleton<IChangelogFileWriter, ChangelogFileWriter>();
         serviceCollection.AddSingleton<IChangelogGenerator, ChangelogGenerator>();
-        serviceCollection.AddSingleton<ICsProjectsRepository, CsProjectsRepository>();
+        serviceCollection.AddSingleton<IDotnetProjectsRepository, DotnetProjectsRepository>();
 
         TypeRegistrar typeRegistrar = new(serviceCollection);
         var app = new CommandAppTester(typeRegistrar);

@@ -20,7 +20,7 @@ internal sealed class ChangelogFileWriterTests
             {
                 ModuleName = "Project",
                 CurrentVersion = new Semver(1, 0, 0),
-                ModuleCsProjFilePath = Path.Join(Environment.CurrentDirectory, "project.csproj"),
+                ModuleProjectFilePath = Path.Join(Environment.CurrentDirectory, "project.csproj"),
                 Changes = [("Something has changed", BumpType.Minor)]
             }];
 
@@ -52,7 +52,7 @@ internal sealed class ChangelogFileWriterTests
             {
                 ModuleName = "Project",
                 CurrentVersion = new Semver(1, 0, 0),
-                ModuleCsProjFilePath = Path.Join(Environment.CurrentDirectory, "project.csproj"),
+                ModuleProjectFilePath = Path.Join(Environment.CurrentDirectory, "project.csproj"),
                 Changes = [
                     ("change1", BumpType.Minor),
                     ("change2", BumpType.Major)
@@ -64,7 +64,7 @@ internal sealed class ChangelogFileWriterTests
             {
                 ModuleName = "Project",
                 CurrentVersion = new Semver(2, 0, 0),
-                ModuleCsProjFilePath = Path.Join(Environment.CurrentDirectory, "project.csproj"),
+                ModuleProjectFilePath = Path.Join(Environment.CurrentDirectory, "project.csproj"),
                 Changes = [
                     ("change3", BumpType.Minor),
                     ("change4", BumpType.Major)
@@ -116,7 +116,7 @@ internal sealed class ChangelogFileWriterTests
             {
                 ModuleName = "Project",
                 CurrentVersion = new Semver(1, 0, 0),
-                ModuleCsProjFilePath = Path.Join(Environment.CurrentDirectory, "project.csproj"),
+                ModuleProjectFilePath = Path.Join(Environment.CurrentDirectory, "project.csproj"),
                 Changes = [
                     ("change1", BumpType.Minor),
                     ("change2", BumpType.Major)
@@ -126,7 +126,7 @@ internal sealed class ChangelogFileWriterTests
             {
                 ModuleName = "Project1",
                 CurrentVersion = new Semver(1, 0, 0),
-                ModuleCsProjFilePath = Path.Join(Environment.CurrentDirectory, "TestData", "project1.csproj"),
+                ModuleProjectFilePath = Path.Join(Environment.CurrentDirectory, "TestData", "project1.csproj"),
                 Changes = [
                     ("change3", BumpType.Minor),
                     ("change4", BumpType.Major)

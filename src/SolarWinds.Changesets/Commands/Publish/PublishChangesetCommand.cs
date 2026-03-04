@@ -41,25 +41,27 @@ internal sealed class PublishChangesetCommand : ConfigurationCommandBase
         _console.WriteLine();
 
         ProcessOutput processOutput = await _gitService.GetDiff(Constants.WorkingDirectoryFullPath, ChangesetConfig.SourcePath);
-        List<string> changedCsharpProjectNames = processOutput.Output.Where(x => x.Contains(".csproj", StringComparison.Ordinal)).ToList();
+        List<string> changedProjectNames = processOutput.Output
+            .Where(x => x.EndsWith(".csproj", StringComparison.Ordinal) || x.EndsWith(".fsproj", StringComparison.Ordinal))
+            .ToList();
 
-        if (changedCsharpProjectNames.Count == 0)
+        if (changedProjectNames.Count == 0)
         {
             _console.MarkupLine("[red]There are no projects to be published.[/]");
             return ResultCodes.NoProjectToPublish;
         }
 
-        _console.MarkupLines(changedCsharpProjectNames);
+        _console.MarkupLines(changedProjectNames);
 
         _console.WriteLine();
         _console.WriteLine("Packing ...");
         _console.WriteLine();
 
-        foreach (string csharpProjectName in changedCsharpProjectNames)
+        foreach (string projectName in changedProjectNames)
         {
-            string csharpProjectFullPath = Path.Join(Constants.WorkingDirectoryFullPath, csharpProjectName);
+            string projectFullPath = Path.Join(Constants.WorkingDirectoryFullPath, projectName);
 
-            ProcessOutput packOutput = await _dotnetService.Pack(csharpProjectFullPath);
+            ProcessOutput packOutput = await _dotnetService.Pack(projectFullPath);
 
             if (packOutput.ExitCode == 0)
             {

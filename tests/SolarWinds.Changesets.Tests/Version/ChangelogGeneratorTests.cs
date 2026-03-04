@@ -20,7 +20,7 @@ internal sealed class ChangelogGeneratorTests
                 "Changelog for single project")
             ];
 
-        IEnumerable<CsProject> csProject = [
+        IEnumerable<DotnetProject> csProject = [
             new("projectX", new Semver(1, 0, 0), ["ProjectReferenceX"], @"c:\temp")
             ];
 
@@ -41,7 +41,7 @@ internal sealed class ChangelogGeneratorTests
                 "Changelog for single project")
             ];
 
-        IEnumerable<CsProject> csProjects = [
+        IEnumerable<DotnetProject> csProjects = [
             new("project1", new Semver(1, 0, 0), ["ProjectReferenceX"], @"c:\temp"),
             new("project2", new Semver(1, 1, 0), ["ProjectReferenceY"], @"c:\temp")
             ];
@@ -69,7 +69,7 @@ internal sealed class ChangelogGeneratorTests
                 "Changelog for single project")
             ];
 
-        IEnumerable<CsProject> csProjects = [
+        IEnumerable<DotnetProject> csProjects = [
             new("project1", new Semver(1, 0, 0), ["ProjectReferenceX"], @"c:\temp"),
             new("project2", new Semver(1, 1, 0), ["ProjectReferenceY"], @"c:\temp"),
             new("project3", new Semver(1, 1, 1), ["project1"], @"c:\temp")
@@ -102,7 +102,7 @@ internal sealed class ChangelogGeneratorTests
                 BumpType.Patch,
                 "Second changelog for project")
             ];
-        IEnumerable<CsProject> csProject = [
+        IEnumerable<DotnetProject> csProject = [
             new("project1", new Semver(1, 0, 0), ["ProjectReferenceX"], @"c:\path")];
 
         List<ModuleChangelog> processedChangelogs = changelogGenerator.GetProcessedChangelogs(changesetFiles, csProject).ToList();
@@ -129,7 +129,7 @@ internal sealed class ChangelogGeneratorTests
                 BumpType.Patch,
                 "Second changelog for project")
             ];
-        IEnumerable<CsProject> csProject = [
+        IEnumerable<DotnetProject> csProject = [
             new("project1", new Semver(1, 0, 0), ["ProjectReferenceX"], @"c:\path")];
 
         List<ModuleChangelog> processedChangelogs = changelogGenerator.GetProcessedChangelogs(changesetFiles, csProject).ToList();

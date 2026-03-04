@@ -9,16 +9,19 @@ using Spectre.Console.Testing;
 namespace SolarWinds.Changesets.Tests.Version;
 
 [TestFixture]
-internal sealed class CsProjectsRepositoryTests
+internal sealed class DotnetProjectsRepositoryTests
 {
     private static readonly string s_testProjectWithVersion = Path.Join(Environment.CurrentDirectory, "TestData", "SubDirectory", "TestProjectWithVersion.csproj");
+    private static readonly string s_testFsharpProjectWithVersion = Path.Join(Environment.CurrentDirectory, "TestData", "SubDirectory", "TestFsharpProjectWithVersion.fsproj");
     private static readonly string s_testProjectWithoutVersion = Path.Join(Environment.CurrentDirectory, "TestData", "TestProjectWithoutVersion.csproj");
     private static readonly string s_testFilePath = Path.Join(Environment.CurrentDirectory, "TestData", "test.csproj");
+    private static readonly string s_testFsharpFilePath = Path.Join(Environment.CurrentDirectory, "TestData", "test.fsproj");
 
     [TearDown]
     public void TearDown()
     {
         DeleteFile(s_testFilePath);
+        DeleteFile(s_testFsharpFilePath);
     }
 
     [Test]
@@ -33,13 +36,13 @@ internal sealed class CsProjectsRepositoryTests
             {
                 ModuleName = "ProjectWithVersion",
                 CurrentVersion = new Semver(1, 0, 0),
-                ModuleCsProjFilePath = s_testFilePath,
+                ModuleProjectFilePath = s_testFilePath,
                 Changes = [("abc", BumpType.Minor)]
             }];
         using TestConsole testConsole = new();
-        CsProjectsRepository csProjFileHelper = new(testConsole);
+        DotnetProjectsRepository projectsRepository = new(testConsole);
 
-        await csProjFileHelper.UpdateCsProjectsVersionAsync(changes);
+        await projectsRepository.UpdateProjectsVersionAsync(changes);
 
         Semver? versionFromFile = LoadVersionFromProjectFile(s_testFilePath);
 
@@ -60,14 +63,14 @@ internal sealed class CsProjectsRepositoryTests
             {
                 ModuleName = "ProjectWithoutVersion",
                 CurrentVersion = new Semver(0, 0, 0),
-                ModuleCsProjFilePath = s_testFilePath,
+                ModuleProjectFilePath = s_testFilePath,
                 Changes = [("abc", BumpType.Minor)]
             }];
 
         using TestConsole testConsole = new();
-        CsProjectsRepository csProjFileHelper = new(testConsole);
+        DotnetProjectsRepository projectsRepository = new(testConsole);
 
-        await csProjFileHelper.UpdateCsProjectsVersionAsync(changes);
+        await projectsRepository.UpdateProjectsVersionAsync(changes);
 
         LoadVersionFromProjectFile(s_testFilePath).Should().BeNull();
 
@@ -83,18 +86,51 @@ internal sealed class CsProjectsRepositoryTests
         };
 
         using TestConsole testConsole = new();
-        CsProjectsRepository csProjFileHelper = new(testConsole);
+        DotnetProjectsRepository projectsRepository = new(testConsole);
 
-        CsProject[] csProjects = csProjFileHelper.GetCsProjects(config);
-        csProjects.Length.Should().Be(1);
+        DotnetProject[] projects = projectsRepository.GetProjects(config);
+        projects.Length.Should().Be(2);
 
-        csProjects
-            .Single()
+        projects
+            .Single(p => p.Name == "TestProjectWithVersion")
             .ReferencedProjectNames
             .Length
             .Should()
             .Be(2)
             ;
+
+        projects
+            .Single(p => p.Name == "TestFsharpProjectWithVersion")
+            .ReferencedProjectNames
+            .Length
+            .Should()
+            .Be(1)
+            ;
+    }
+
+    [Test]
+    public async Task UpdateFsharpProjectVersion_IncreasesVersion_WhenVersionInProjectFile()
+    {
+        DeleteFile(s_testFsharpFilePath);
+
+        File.Copy(s_testFsharpProjectWithVersion, s_testFsharpFilePath);
+
+        IEnumerable<ModuleChangelog> changes = [
+            new ModuleChangelog()
+            {
+                ModuleName = "FsharpProjectWithVersion",
+                CurrentVersion = new Semver(2, 0, 0),
+                ModuleProjectFilePath = s_testFsharpFilePath,
+                Changes = [("abc", BumpType.Minor)]
+            }];
+        using TestConsole testConsole = new();
+        DotnetProjectsRepository projectsRepository = new(testConsole);
+
+        await projectsRepository.UpdateProjectsVersionAsync(changes);
+
+        Semver? versionFromFile = LoadVersionFromProjectFile(s_testFsharpFilePath);
+
+        versionFromFile?.Should().BeEquivalentTo(new Semver(2, 1, 0));
     }
 
     private static void DeleteFile(string path)
