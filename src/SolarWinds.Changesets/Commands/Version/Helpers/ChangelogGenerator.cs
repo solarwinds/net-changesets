@@ -93,7 +93,7 @@ internal sealed class ChangelogGenerator : IChangelogGenerator
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="moduleChangelog"></param>
     /// <param name="projectToDependentProjects"></param>
