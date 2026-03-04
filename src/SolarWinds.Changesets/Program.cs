@@ -14,11 +14,11 @@ ServiceCollection serviceCollection = new();
 
 // We do not need to register AnsiConsole.Console under IAnsiConsole. It is registered for us by CommandApp!
 serviceCollection.AddSingleton<IConfigurationService, ConfigurationService>();
-serviceCollection.AddSingleton<IProjectFileNamesLocator, CsharpProjectFileNamesLocator>();
+serviceCollection.AddSingleton<IProjectFileNamesLocator, DotnetProjectFileNamesLocator>();
 serviceCollection.AddSingleton<IChangesetsRepository, ChangesetsRepository>();
 serviceCollection.AddSingleton<IChangelogFileWriter, ChangelogFileWriter>();
 serviceCollection.AddSingleton<IChangelogGenerator, ChangelogGenerator>();
-serviceCollection.AddSingleton<ICsProjectsRepository, CsProjectsRepository>();
+serviceCollection.AddSingleton<IDotnetProjectsRepository, DotnetProjectsRepository>();
 serviceCollection.AddSingleton<IProcessExecutor, ProcessExecutor>();
 serviceCollection.AddSingleton<IGitService, GitService>();
 serviceCollection.AddSingleton<IDotnetService, DotnetService>();

@@ -23,7 +23,7 @@ public static class ResultCodes
     public const int AlreadyInitialized = 2;
 
     /// <summary>
-    /// There are no '.csproj' files with updated version.
+    /// There are no project files with updated version.
     /// </summary>
     public const int NoProjectToPublish = 3;
 

@@ -6,17 +6,17 @@ namespace SolarWinds.Changesets.Commands.Version.Helpers;
 internal sealed class ChangelogGenerator : IChangelogGenerator
 {
     /// <inheritdoc/>
-    public IEnumerable<ModuleChangelog> GetProcessedChangelogs(ChangesetFile[] changesets, IEnumerable<CsProject> csProjects)
+    public IEnumerable<ModuleChangelog> GetProcessedChangelogs(ChangesetFile[] changesets, IEnumerable<DotnetProject> projects)
     {
-        List<ModuleChangelog> moduleChangelogs = GenerateModuleChangelogs(changesets, csProjects);
+        List<ModuleChangelog> moduleChangelogs = GenerateModuleChangelogs(changesets, projects);
 
-        ImmutableDictionary<string, CsProject[]> csProjectToDependentProjects = GetProjectsDependentsNames(csProjects);
+        ImmutableDictionary<string, DotnetProject[]> projectToDependentProjects = GetProjectsDependentsNames(projects);
 
         List<ModuleChangelog> dependentModulesChangelogs = [];
 
         foreach (ModuleChangelog module in moduleChangelogs)
         {
-            IEnumerable<ModuleChangelog> changelogs = GetDependentModulesChangelogs(module, csProjectToDependentProjects);
+            IEnumerable<ModuleChangelog> changelogs = GetDependentModulesChangelogs(module, projectToDependentProjects);
             dependentModulesChangelogs.AddRange(changelogs);
         }
 
@@ -31,10 +31,10 @@ internal sealed class ChangelogGenerator : IChangelogGenerator
     /// Processes changeset files and filters out unique modules with their <see cref="ModuleChangelog"/>
     /// </summary>
     /// <param name="changesetFiles"></param>
-    /// <param name="csProjects"></param>
+    /// <param name="projects"></param>
     /// <returns>Collection of <see cref="ModuleChangelog"/></returns>
     private static List<ModuleChangelog> GenerateModuleChangelogs(
-        ChangesetFile[] changesetFiles, IEnumerable<CsProject> csProjects)
+        ChangesetFile[] changesetFiles, IEnumerable<DotnetProject> projects)
     {
         Dictionary<string, ModuleChangelog> moduleChangelogs = [];
 
@@ -44,8 +44,8 @@ internal sealed class ChangelogGenerator : IChangelogGenerator
             {
                 if (!moduleChangelogs.TryGetValue(changedModuleName, out ModuleChangelog? moduleChangelog))
                 {
-                    CsProject? changedModuleCsProject = csProjects.SingleOrDefault(p => p.Name == changedModuleName);
-                    if (changedModuleCsProject is null)
+                    DotnetProject? changedModuleProject = projects.SingleOrDefault(p => p.Name == changedModuleName);
+                    if (changedModuleProject is null)
                     {
                         //Console.WriteLine("Something is wrong");
                         continue;
@@ -53,9 +53,9 @@ internal sealed class ChangelogGenerator : IChangelogGenerator
 
                     moduleChangelog = new ModuleChangelog
                     {
-                        ModuleName = changedModuleCsProject.Name,
-                        ModuleCsProjFilePath = changedModuleCsProject.CsprojFilePath,
-                        CurrentVersion = changedModuleCsProject.Version
+                        ModuleName = changedModuleProject.Name,
+                        ModuleProjectFilePath = changedModuleProject.ProjectFilePath,
+                        CurrentVersion = changedModuleProject.Version
                     };
                     moduleChangelogs[changedModuleName] = moduleChangelog;
                 }
@@ -70,56 +70,56 @@ internal sealed class ChangelogGenerator : IChangelogGenerator
     /// <summary>
     /// Determine projects which reference particular ProjectReference.
     /// </summary>
-    /// <param name="csProjects"></param>
+    /// <param name="projects"></param>
     /// <returns>Dictionary, where key is ProjectReference and value is unique list of projects dependent on the ProjectReference</returns>
-    private static ImmutableDictionary<string, CsProject[]> GetProjectsDependentsNames(IEnumerable<CsProject> csProjects)
+    private static ImmutableDictionary<string, DotnetProject[]> GetProjectsDependentsNames(IEnumerable<DotnetProject> projects)
     {
-        Dictionary<string, HashSet<CsProject>> csProjectNameToDependentProjects = [];
+        Dictionary<string, HashSet<DotnetProject>> projectNameToDependentProjects = [];
 
-        foreach (CsProject csProject in csProjects)
+        foreach (DotnetProject project in projects)
         {
-            foreach (string projectReferenceName in csProject.ReferencedProjectNames)
+            foreach (string projectReferenceName in project.ReferencedProjectNames)
             {
-                if (csProjectNameToDependentProjects.TryGetValue(projectReferenceName, out HashSet<CsProject>? value))
+                if (projectNameToDependentProjects.TryGetValue(projectReferenceName, out HashSet<DotnetProject>? value))
                 {
-                    value.Add(csProject);
+                    value.Add(project);
                 }
 
-                csProjectNameToDependentProjects[projectReferenceName] = [csProject];
+                projectNameToDependentProjects[projectReferenceName] = [project];
             }
         }
 
-        return csProjectNameToDependentProjects.ToImmutableDictionary(pair => pair.Key, pair => pair.Value.ToArray());
+        return projectNameToDependentProjects.ToImmutableDictionary(pair => pair.Key, pair => pair.Value.ToArray());
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="moduleChangelog"></param>
-    /// <param name="csProjectToDependentProjects"></param>
+    /// <param name="projectToDependentProjects"></param>
     /// <returns></returns>
     private static List<ModuleChangelog> GetDependentModulesChangelogs(
        ModuleChangelog moduleChangelog,
-       ImmutableDictionary<string, CsProject[]> csProjectToDependentProjects
+       ImmutableDictionary<string, DotnetProject[]> projectToDependentProjects
        )
     {
         List<ModuleChangelog> dependentModulesChangelogs = [];
 
-        CsProject[] dependentProjects = GetDependentProjects(moduleChangelog.ModuleName, csProjectToDependentProjects);
+        DotnetProject[] dependentProjects = GetDependentProjects(moduleChangelog.ModuleName, projectToDependentProjects);
 
-        foreach (CsProject dependentProject in dependentProjects)
+        foreach (DotnetProject dependentProject in dependentProjects)
         {
             ModuleChangelog dependentModuleChangelog = new()
             {
                 ModuleName = dependentProject.Name,
-                ModuleCsProjFilePath = dependentProject.CsprojFilePath,
+                ModuleProjectFilePath = dependentProject.ProjectFilePath,
                 CurrentVersion = dependentProject.Version,
             };
             dependentModuleChangelog.Changes.Add(
                 new($"Updated dependencies: {moduleChangelog.ModuleName}:{moduleChangelog.GetNewVersion()}", BumpType.Patch) // TODO format Description
             );
             dependentModulesChangelogs.Add(dependentModuleChangelog);
-            IEnumerable<ModuleChangelog> recursive = GetDependentModulesChangelogs(dependentModuleChangelog, csProjectToDependentProjects);
+            IEnumerable<ModuleChangelog> recursive = GetDependentModulesChangelogs(dependentModuleChangelog, projectToDependentProjects);
             dependentModulesChangelogs.AddRange(recursive);
         }
 
@@ -133,16 +133,16 @@ internal sealed class ChangelogGenerator : IChangelogGenerator
             .Select(group => new ModuleChangelog
             {
                 ModuleName = group.Key,
-                ModuleCsProjFilePath = group.First().ModuleCsProjFilePath,
+                ModuleProjectFilePath = group.First().ModuleProjectFilePath,
                 CurrentVersion = group.First().CurrentVersion, // Assume the version is the same for grouped items
                 Changes = group.SelectMany(g => g.Changes).ToList()
             })
             .ToList();
     }
 
-    private static CsProject[] GetDependentProjects(string projectName, ImmutableDictionary<string, CsProject[]> csProjectToDependentProjects)
+    private static DotnetProject[] GetDependentProjects(string projectName, ImmutableDictionary<string, DotnetProject[]> projectToDependentProjects)
     {
-        if (csProjectToDependentProjects.TryGetValue(projectName, out CsProject[]? dependents))
+        if (projectToDependentProjects.TryGetValue(projectName, out DotnetProject[]? dependents))
         {
             return dependents;
         }
