@@ -89,6 +89,36 @@ internal sealed class ChangelogGeneratorTests
     }
 
     [Test]
+    public void GetProcessedChangelogs_ProjectWithTwoDependents_BumpsBothDependents()
+    {
+        ChangelogGenerator changelogGenerator = new();
+
+        ChangesetFile[] changesetFile = [
+            new(
+                ["project1"],
+                BumpType.Minor,
+                "Changelog for shared project")
+            ];
+
+        // project2 and project3 both reference project1
+        IEnumerable<CsProject> csProjects = [
+            new("project1", new Semver(1, 0, 0), [], @"c:\temp"),
+            new("project2", new Semver(1, 0, 0), ["project1"], @"c:\temp"),
+            new("project3", new Semver(1, 0, 0), ["project1"], @"c:\temp")
+            ];
+
+        List<ModuleChangelog> processedChangelogs = changelogGenerator.GetProcessedChangelogs(changesetFile, csProjects).ToList();
+
+        processedChangelogs.Select(x => x.ModuleName).Should().BeEquivalentTo(["project1", "project2", "project3"]);
+
+        ModuleChangelog project2 = processedChangelogs.First(x => x.ModuleName == "project2");
+        ModuleChangelog project3 = processedChangelogs.First(x => x.ModuleName == "project3");
+
+        project2.GetNewVersion().Should().BeEquivalentTo(new Semver(1, 0, 1));
+        project3.GetNewVersion().Should().BeEquivalentTo(new Semver(1, 0, 1));
+    }
+
+    [Test]
     public void GetProcessedChangelogs_OneProject_ReturnsOneChangelog()
     {
         ChangelogGenerator changelogGenerator = new();
