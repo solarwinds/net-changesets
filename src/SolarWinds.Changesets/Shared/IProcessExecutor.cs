@@ -3,7 +3,7 @@ namespace SolarWinds.Changesets.Shared;
 /// <summary>
 /// Executes external processes and captures their output and exit code.
 /// </summary>
-public interface IProcessExecutor
+internal interface IProcessExecutor
 {
     /// <summary>
     /// Executes a process with the specified executable, arguments, and working directory.

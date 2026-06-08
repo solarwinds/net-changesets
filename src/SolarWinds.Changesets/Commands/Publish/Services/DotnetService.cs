@@ -3,7 +3,7 @@ using SolarWinds.Changesets.Shared;
 namespace SolarWinds.Changesets.Commands.Publish.Services;
 
 /// <inheritdoc />
-public sealed class DotnetService : IDotnetService
+internal sealed class DotnetService : IDotnetService
 {
     private readonly IProcessExecutor _processExecutor;
 

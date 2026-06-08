@@ -2,6 +2,7 @@
 
   <!-- https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets -->
   <PropertyGroup Label="NuGet Package Setup">
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
     <PackageID>SolarWinds.Changesets</PackageID>
     <Title>.NET Changesets</Title>
     <ToolCommandName>changeset</ToolCommandName>
@@ -41,6 +42,7 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="SolarWinds.Changesets.Tests" />
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
   </ItemGroup>
 
 </Project>

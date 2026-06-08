@@ -3,7 +3,7 @@ namespace SolarWinds.Changesets.Shared;
 /// <summary>
 /// Specifies the type of version bump to apply.
 /// </summary>
-public enum BumpType
+internal enum BumpType
 {
     /// <summary>
     /// No version bump.
