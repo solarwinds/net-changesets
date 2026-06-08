@@ -5,7 +5,7 @@ namespace SolarWinds.Changesets.Commands.Publish.Services;
 /// <summary>
 /// Provides functionality to interact with the .NET CLI for operations such as packing and publishing NuGet packages.
 /// </summary>
-public interface IDotnetService
+internal interface IDotnetService
 {
     /// <summary>
     /// Packs a .NET project into a NuGet package.

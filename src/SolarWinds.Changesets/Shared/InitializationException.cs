@@ -3,7 +3,7 @@ namespace SolarWinds.Changesets.Shared;
 /// <summary>
 /// Represents errors that occur during the initialization phase.
 /// </summary>
-public sealed class InitializationException : Exception
+internal sealed class InitializationException : Exception
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="InitializationException"/> class

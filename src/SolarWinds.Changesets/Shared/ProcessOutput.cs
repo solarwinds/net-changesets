@@ -5,4 +5,4 @@ namespace SolarWinds.Changesets.Shared;
 /// </summary>
 /// <param name="Output">The list of output lines from the process.</param>
 /// <param name="ExitCode">The exit code of the process.</param>
-public record ProcessOutput(ICollection<string> Output, int ExitCode);
+internal record ProcessOutput(ICollection<string> Output, int ExitCode);
