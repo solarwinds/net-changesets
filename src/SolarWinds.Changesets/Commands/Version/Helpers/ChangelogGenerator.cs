@@ -90,7 +90,7 @@ internal sealed class ChangelogGenerator : IChangelogGenerator
             }
         }
 
-        return csProjectNameToDependentProjects.ToImmutableDictionary(pair => pair.Key, pair => pair.Value.ToArray());
+        return csProjectNameToDependentProjects.ToImmutableDictionary(pair => pair.Key, pair => pair.Value.OrderBy(p => p.Name).ToArray());
     }
 
     /// <summary>
