@@ -46,13 +46,14 @@ internal sealed class InitChangesetCommand : AsyncCommand
     /// Executes Init command.
     /// </summary>
     /// <param name="context">Command context.</param>
+    /// <param name="cancellationToken">A token to observe for cancellation requests.</param>
     /// <returns>
     /// An integer indicating the result of the initialization:
     /// -  0: Initialization succeeded.
     /// -  1: Directory existed but config file was missing; default config created.
     /// -  2: Changesets already initialized; no further action needed.
     /// </returns>
-    public override async Task<int> ExecuteAsync(CommandContext context)
+    protected override async Task<int> ExecuteAsync(CommandContext context, CancellationToken cancellationToken)
     {
         if (Directory.Exists(Constants.ChangesetDirectoryFullPath))
         {
