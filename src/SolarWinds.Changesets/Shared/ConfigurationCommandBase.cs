@@ -16,7 +16,7 @@ internal abstract class ConfigurationCommandBase : AsyncCommand
         _configurationService = configurationService;
     }
 
-    public sealed override async Task<int> ExecuteAsync(CommandContext context)
+    protected sealed override async Task<int> ExecuteAsync(CommandContext context, CancellationToken cancellationToken)
     {
         if (!Directory.Exists(Constants.ChangesetDirectoryFullPath))
         {

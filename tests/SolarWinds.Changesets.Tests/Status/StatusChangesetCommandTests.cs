@@ -4,7 +4,7 @@ using SolarWinds.Changesets.Commands.Init;
 using SolarWinds.Changesets.Commands.Status;
 using SolarWinds.Changesets.Infrastructure;
 using SolarWinds.Changesets.Shared;
-using Spectre.Console.Testing;
+using Spectre.Console.Cli.Testing;
 
 namespace SolarWinds.Changesets.Tests.Status;
 
@@ -23,9 +23,12 @@ internal sealed class StatusChangesetCommandTests
         serviceCollection.AddSingleton(_changesetsRepositoryMock.Object);
 
         TypeRegistrar typeRegistrar = new(serviceCollection);
+
+        CommandAppTester initApp = new(typeRegistrar);
+        initApp.SetDefaultCommand<InitChangesetCommand>();
+        initApp.Run();
+
         _app = new(typeRegistrar);
-        _app.SetDefaultCommand<InitChangesetCommand>();
-        _app.Run();
         _app.SetDefaultCommand<StatusChangesetCommand>();
     }
 
