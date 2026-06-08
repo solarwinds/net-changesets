@@ -21,7 +21,7 @@ internal sealed class ProcessExecutorTests
             _executable = "cmd";
             _argumentsTemplate = '/';
         }
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
             _executable = "/bin/bash";
             _argumentsTemplate = '-';
