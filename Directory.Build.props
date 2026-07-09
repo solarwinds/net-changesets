@@ -4,7 +4,6 @@
 
   <PropertyGroup>
     <LangVersion>14.0</LangVersion>
-    <LangVersion Condition="'$(TargetFramework)' == 'net8.0'">12.0</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup>
