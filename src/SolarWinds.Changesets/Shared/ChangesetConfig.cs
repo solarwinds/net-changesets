@@ -3,7 +3,7 @@ namespace SolarWinds.Changesets.Shared;
 /// <summary>
 /// Changeset config.
 /// </summary>
-public sealed class ChangesetConfig
+internal sealed class ChangesetConfig
 {
     /// <summary>
     /// Specify the relative path from the changeset command's execution folder to the location of the projects.

@@ -3,7 +3,7 @@ using SolarWinds.Changesets.Shared;
 namespace SolarWinds.Changesets.Commands.Publish.Services;
 
 /// <inheritdoc />
-public sealed class GitService : IGitService
+internal sealed class GitService : IGitService
 {
     private readonly IProcessExecutor _processExecutor;
 
