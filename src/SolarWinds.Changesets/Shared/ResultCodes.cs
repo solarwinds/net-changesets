@@ -3,7 +3,7 @@ namespace SolarWinds.Changesets.Shared;
 /// <summary>
 /// Defines command result codes with documentation.
 /// </summary>
-public static class ResultCodes
+internal static class ResultCodes
 {
     #region Success Codes
 

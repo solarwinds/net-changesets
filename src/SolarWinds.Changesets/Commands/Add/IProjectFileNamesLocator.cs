@@ -3,7 +3,7 @@ namespace SolarWinds.Changesets.Commands.Add;
 /// <summary>
 /// Defines a contract for locating project file names within a specified directory.
 /// </summary>
-public interface IProjectFileNamesLocator
+internal interface IProjectFileNamesLocator
 {
     /// <summary>
     /// Retrieves project file names located in the specified directory.

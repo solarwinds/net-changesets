@@ -7,7 +7,7 @@ namespace SolarWinds.Changesets.Shared;
 /// This service allows creating a default configuration file and retrieving an existing configuration file.
 /// It uses JSON serialization and deserialization to handle the configuration data.
 /// </remarks>
-public interface IConfigurationService
+internal interface IConfigurationService
 {
 
     /// <summary>

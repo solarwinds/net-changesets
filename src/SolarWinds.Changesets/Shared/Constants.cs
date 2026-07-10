@@ -3,7 +3,7 @@ namespace SolarWinds.Changesets.Shared;
 /// <summary>
 /// Provides application-wide constant values of file names and file path.
 /// </summary>
-public static class Constants
+internal static class Constants
 {
     /// <summary>
     /// The file name of the changelog file.

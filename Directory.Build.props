@@ -3,9 +3,8 @@
   <!--https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props-->
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <!-- Default for .NET8.0, please update together with TargetFramework version -->
-    <LangVersion>12.0</LangVersion>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <LangVersion>14.0</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -25,8 +24,7 @@
     <MSBuildTreatWarningsAsErrors>true</MSBuildTreatWarningsAsErrors>
     <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <!-- Default for .NET8.0, please update together with TargetFramework version -->
-    <AnalysisLevel>8</AnalysisLevel>
+    <AnalysisLevel>10</AnalysisLevel>
     <AnalysisMode>all</AnalysisMode>
     <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
 
