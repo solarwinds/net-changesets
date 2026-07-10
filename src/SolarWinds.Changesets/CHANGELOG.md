@@ -1,5 +1,17 @@
 # SolarWinds.Changesets
 
+## 0.2.0
+
+**Minor Changes**:
+
+- [[#16](https://github.com/solarwinds/net-changesets/issue/16)] Adopt .NET 10 with multi-targeting. The tool and tests now target `net8.0`, `net9.0` and `net10.0`, the SDK and CI use .NET 10. [[#30](https://github.com/solarwinds/net-changesets/pull/30)]
+
+**Patch Changes**:
+
+- [[#28](https://github.com/solarwinds/net-changesets/issues/28)] Added documentation for integrating net-changesets with the official Changesets GitHub Action, including custom `version` and `publish` commands, required checkout depth, status-check behavior, NuGet source configuration, and links to a working demo workflow. ([PR #29](https://github.com/solarwinds/net-changesets/pull/29))
+- Upgrade Spectre.Console to 0.56.0 and Spectre.Console.Cli to 0.55.0 (with matching testing packages). Adapts to the new command `ExecuteAsync(CommandContext, CancellationToken)` signature and the move of `CommandAppTester` into the new `Spectre.Console.Cli.Testing` package. [[#31](https://github.com/solarwinds/net-changesets/pull/31)]
+- Fix `version` only bumping one dependent when a project is referenced by multiple projects. [[#32](https://github.com/solarwinds/net-changesets/pull/32)]
+
 ## 0.1.4
 
 **Patch Changes**:
