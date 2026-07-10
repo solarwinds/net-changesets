@@ -3,7 +3,7 @@ using System.Diagnostics;
 namespace SolarWinds.Changesets.Shared;
 
 /// <inheritdoc />
-public class ProcessExecutor : IProcessExecutor
+internal class ProcessExecutor : IProcessExecutor
 {
     /// <inheritdoc />
     public async Task<ProcessOutput> Execute(string executable, string arguments, string workingDirectoryPath)

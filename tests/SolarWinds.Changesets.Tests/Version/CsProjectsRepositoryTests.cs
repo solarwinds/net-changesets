@@ -125,6 +125,6 @@ internal sealed class CsProjectsRepositoryTests
         using FileStream stream = File.OpenRead(path);
 
         byte[] hashBytes = sha256.ComputeHash(stream);
-        return BitConverter.ToString(hashBytes).Replace("-", "", StringComparison.Ordinal).ToUpperInvariant();
+        return Convert.ToHexString(hashBytes);
     }
 }

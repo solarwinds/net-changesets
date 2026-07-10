@@ -3,7 +3,7 @@ namespace SolarWinds.Changesets.Shared;
 /// <summary>
 /// Defines methods for accessing and managing changesets.
 /// </summary>
-public interface IChangesetsRepository
+internal interface IChangesetsRepository
 {
     /// <summary>
     /// Creates changeset file in the changeset working directory.

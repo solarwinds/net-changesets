@@ -5,7 +5,7 @@ namespace SolarWinds.Changesets.Commands.Publish.Services;
 /// <summary>
 /// Provides Git-related services, such as retrieving file differences.
 /// </summary>
-public interface IGitService
+internal interface IGitService
 {
     /// <summary>
     /// Retrieves a list of file names that have changed in the specified source path.
