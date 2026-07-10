@@ -6,6 +6,8 @@
   // Once main fully adopts .NET 10, this can be simplified back to a single SDK.
   "name": "NET Changesets (.NET 8 + .NET 10 SDKs)",
   "image": "mcr.microsoft.com/dotnet/sdk:8.0",
+  "containerUser": "vscode",
+  "remoteUser": "vscode",
   "containerEnv": {
     "DOTNET_CLI_TELEMETRY_OPTOUT": "true",
     "DOTNET_NOLOGO": "true"
@@ -20,6 +22,14 @@
     }
   },
   "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "username": "vscode",
+      "installZsh": "false",
+      "installOhMyZsh": "false"
+    },
     "ghcr.io/solarwinds/devcontainers/features/cato:latest": {}
-  }
+  },
+  "overrideFeatureInstallOrder": [
+    "ghcr.io/solarwinds/devcontainers/features/cato:latest"
+  ]
 }
