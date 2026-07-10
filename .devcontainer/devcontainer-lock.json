@@ -1,0 +1,9 @@
+{
+  "features": {
+    "ghcr.io/solarwinds/devcontainers/features/cato:latest": {
+      "version": "1.1.0",
+      "resolved": "ghcr.io/solarwinds/devcontainers/features/cato@sha256:f966a0f19818f9579dea3984065fd8d6773e2365db5c3503cb9a9f6c000a51f7",
+      "integrity": "sha256:f966a0f19818f9579dea3984065fd8d6773e2365db5c3503cb9a9f6c000a51f7"
+    }
+  }
+}
