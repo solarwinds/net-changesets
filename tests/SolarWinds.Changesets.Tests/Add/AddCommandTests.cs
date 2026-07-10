@@ -6,6 +6,7 @@ using SolarWinds.Changesets.Commands.Init;
 using SolarWinds.Changesets.Infrastructure;
 using SolarWinds.Changesets.Shared;
 using Spectre.Console.Cli;
+using Spectre.Console.Cli.Testing;
 using Spectre.Console.Testing;
 
 namespace SolarWinds.Changesets.Tests.Add;
@@ -14,8 +15,8 @@ namespace SolarWinds.Changesets.Tests.Add;
 internal sealed class AddCommandTests
 {
     private readonly Mock<IProjectFileNamesLocator> _projectFileNameLocator = new();
+    private TypeRegistrar _typeRegistrar = null!;
     private CommandAppTester _app = null!;
-    private TestConsole _console = null!;
     private ChangesetsRepository _changesetsRepository = null!;
 
     [SetUp]
@@ -29,8 +30,8 @@ internal sealed class AddCommandTests
         _changesetsRepository = new ChangesetsRepository();
         serviceCollection.AddSingleton<IChangesetsRepository>(_changesetsRepository);
 
-        TypeRegistrar typeRegistrar = new(serviceCollection);
-        _app = new(typeRegistrar);
+        _typeRegistrar = new(serviceCollection);
+        _app = new(_typeRegistrar);
         _app.Configure(config =>
         {
             config
@@ -51,27 +52,28 @@ internal sealed class AddCommandTests
         // Arrange
         _projectFileNameLocator.Setup(x => x.GetProjectFileNames(It.IsAny<string>())).Returns(["A", "B"]);
 
-        _console = new();
-        _console.Interactive();
+        CommandAppTester initApp = new(_typeRegistrar);
+        initApp.SetDefaultCommand<InitChangesetCommand>();
+        await initApp.RunAsync();
+
+        _app.Console.Interactive();
 
         // MultiSelectionPrompt - Select 2nd project 'B'
-        _console.Input.PushKey(ConsoleKey.DownArrow);
-        _console.Input.PushKey(ConsoleKey.Spacebar);
-        _console.Input.PushKey(ConsoleKey.Enter);
+        _app.Console.Input.PushKey(ConsoleKey.DownArrow);
+        _app.Console.Input.PushKey(ConsoleKey.Spacebar);
+        _app.Console.Input.PushKey(ConsoleKey.Enter);
 
         // SelectionPrompt - Select BumpType 'Minor'
-        _console.Input.PushKey(ConsoleKey.DownArrow);
-        _console.Input.PushKey(ConsoleKey.Enter);
+        _app.Console.Input.PushKey(ConsoleKey.DownArrow);
+        _app.Console.Input.PushKey(ConsoleKey.Enter);
 
         // TextPrompt - Describe changes
         string expectedDescription = "Test example description";
-        _console.Input.PushTextWithEnter(expectedDescription);
+        _app.Console.Input.PushTextWithEnter(expectedDescription);
 
         // Act
-        _app.SetDefaultCommand<InitChangesetCommand>();
-        await _app.RunAsync();
         _app.SetDefaultCommand<AddChangesetCommand>();
-        CommandAppResult result = _app.RunWithCustomConsole([], _console);
+        CommandAppResult result = await _app.RunAsync();
 
         // Assert
         result.ExitCode.Should().Be(ResultCodes.Success, result.Output);

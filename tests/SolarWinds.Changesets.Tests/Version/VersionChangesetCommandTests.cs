@@ -6,7 +6,7 @@ using SolarWinds.Changesets.Commands.Version;
 using SolarWinds.Changesets.Commands.Version.Helpers;
 using SolarWinds.Changesets.Infrastructure;
 using SolarWinds.Changesets.Shared;
-using Spectre.Console.Testing;
+using Spectre.Console.Cli.Testing;
 
 namespace SolarWinds.Changesets.Tests.Version;
 
