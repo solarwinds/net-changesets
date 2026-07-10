@@ -47,6 +47,14 @@ You can find the **Roadmap** [here](https://github.com/solarwinds/net-changesets
 
 You can find the **Contribution Guidelines** [here](https://github.com/solarwinds/net-changesets/blob/main/CONTRIBUTING.md).
 
+## Development container
+
+A [Dev Container](https://containers.dev/) configuration is provided in [.devcontainer/devcontainer.json](https://github.com/solarwinds/net-changesets/blob/main/.devcontainer/devcontainer.json) to give you a ready-to-use environment with the correct .NET SDK version(s) already installed.
+
+To use it in VS Code, install the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers), then run **Dev Containers: Reopen in Container** from the Command Palette. It also works with [GitHub Codespaces](https://github.com/features/codespaces).
+
+The base image matches the .NET SDK version pinned in [global.json](https://github.com/solarwinds/net-changesets/blob/main/global.json). A second .NET 10 SDK is additionally installed side-by-side via `postCreateCommand` to support ongoing multitargeting work (`net8.0`/`net10.0`), mirroring the SDK matrix used in CI.
+
 ## Installation
 
 Install tool by running [dotnet tool install](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-tool-install):
