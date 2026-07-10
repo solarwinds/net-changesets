@@ -80,16 +80,17 @@ internal sealed class ChangelogGenerator : IChangelogGenerator
         {
             foreach (string projectReferenceName in csProject.ReferencedProjectNames)
             {
-                if (csProjectNameToDependentProjects.TryGetValue(projectReferenceName, out HashSet<CsProject>? value))
+                if (!csProjectNameToDependentProjects.TryGetValue(projectReferenceName, out HashSet<CsProject>? value))
                 {
-                    value.Add(csProject);
+                    value = [];
+                    csProjectNameToDependentProjects[projectReferenceName] = value;
                 }
 
-                csProjectNameToDependentProjects[projectReferenceName] = [csProject];
+                value.Add(csProject);
             }
         }
 
-        return csProjectNameToDependentProjects.ToImmutableDictionary(pair => pair.Key, pair => pair.Value.ToArray());
+        return csProjectNameToDependentProjects.ToImmutableDictionary(pair => pair.Key, pair => pair.Value.OrderBy(p => p.Name).ToArray());
     }
 
     /// <summary>
