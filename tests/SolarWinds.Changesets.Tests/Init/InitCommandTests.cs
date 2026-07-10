@@ -3,14 +3,14 @@ using Microsoft.Extensions.DependencyInjection;
 using SolarWinds.Changesets.Commands.Init;
 using SolarWinds.Changesets.Infrastructure;
 using SolarWinds.Changesets.Shared;
-using Spectre.Console.Testing;
+using Spectre.Console.Cli.Testing;
 
 namespace SolarWinds.Changesets.Tests.Init;
 
 [TestFixture]
 internal sealed class InitCommandTests
 {
-    private CommandAppTester _app = null!;
+    private TypeRegistrar _typeRegistrar = null!;
 
     [SetUp]
     public void SetUp()
@@ -19,10 +19,14 @@ internal sealed class InitCommandTests
 
         ServiceCollection serviceCollection = new();
         serviceCollection.AddSingleton<IConfigurationService, ConfigurationService>();
-        TypeRegistrar typeRegistrar = new(serviceCollection);
-        CommandAppTester app = new(typeRegistrar);
+        _typeRegistrar = new(serviceCollection);
+    }
+
+    private CommandAppTester CreateApp()
+    {
+        CommandAppTester app = new(_typeRegistrar);
         app.SetDefaultCommand<InitChangesetCommand>();
-        _app = app;
+        return app;
     }
 
     [TearDown]
@@ -35,7 +39,7 @@ internal sealed class InitCommandTests
     public void InitCommand_HappyPath_FolderAndFilesAreCreated()
     {
         // Arrange, Act
-        CommandAppResult result = _app.Run();
+        CommandAppResult result = CreateApp().Run();
 
         // Assert
         AssertInitCommand(result, ResultCodes.Success);
@@ -45,12 +49,12 @@ internal sealed class InitCommandTests
     public void InitCommand_HappyPathRunTwice_ConfigIsMissingAndWillBeGenerated()
     {
         // Arrange, Act, Assert
-        CommandAppResult result = _app.Run();
+        CommandAppResult result = CreateApp().Run();
         AssertInitCommand(result, ResultCodes.Success);
 
         File.Delete(Constants.ChangesetConfigFileFullPath);
 
-        CommandAppResult result2 = _app.Run();
+        CommandAppResult result2 = CreateApp().Run();
         AssertInitCommand(result2, ResultCodes.ConfigFileWasGenerated);
     }
 
@@ -58,10 +62,10 @@ internal sealed class InitCommandTests
     public void InitCommand_HappyPathRunTwice_ConsoleContainMessageThatAlreadyExists()
     {
         // Arrange, Act, Assert
-        CommandAppResult result = _app.Run();
+        CommandAppResult result = CreateApp().Run();
         AssertInitCommand(result, ResultCodes.Success);
 
-        CommandAppResult result2 = _app.Run();
+        CommandAppResult result2 = CreateApp().Run();
         AssertInitCommand(result2, ResultCodes.AlreadyInitialized);
     }
 

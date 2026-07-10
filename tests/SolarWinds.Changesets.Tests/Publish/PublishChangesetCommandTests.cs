@@ -5,7 +5,7 @@ using SolarWinds.Changesets.Commands.Publish;
 using SolarWinds.Changesets.Commands.Publish.Services;
 using SolarWinds.Changesets.Infrastructure;
 using SolarWinds.Changesets.Shared;
-using Spectre.Console.Testing;
+using Spectre.Console.Cli.Testing;
 
 namespace SolarWinds.Changesets.Tests.Publish;
 
@@ -31,9 +31,12 @@ internal sealed class PublishChangesetCommandTests
         _configurationServiceMock.Setup(x => x.GetConfigAsync(It.IsAny<string>())).Returns(Task.FromResult(new ChangesetConfig()));
 
         TypeRegistrar typeRegistrar = new(serviceCollection);
+
+        CommandAppTester initApp = new(typeRegistrar);
+        initApp.SetDefaultCommand<InitChangesetCommand>();
+        initApp.Run();
+
         _app = new(typeRegistrar);
-        _app.SetDefaultCommand<InitChangesetCommand>();
-        _app.Run();
         _app.SetDefaultCommand<PublishChangesetCommand>();
     }
 
